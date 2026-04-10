@@ -1,100 +1,87 @@
-// import React from "react";
-// import { FaUserPlus } from "react-icons/fa";
-// import { MdFindInPage } from "react-icons/md";
-// import { IoMdSend } from "react-icons/io";
-
-// const HowItWorks = () => {
-//   return (
-//     <>
-//       <div className="howitworks">
-//         <div className="container">
-//           <h3>How Career Connect Works !</h3>
-//           <div className="banner">
-//             <div className="card">
-//               <FaUserPlus />
-//               <p>Create Account</p>
-//               <p>
-//                 Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-//                 Consequuntur, culpa.
-//               </p>
-//             </div>
-//             <div className="card">
-//               <MdFindInPage />
-//               <p>Find a Job/Post a Job</p>
-//               <p>
-//                 Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-//                 Consequuntur, culpa.
-//               </p>
-//             </div>
-//             <div className="card">
-//               <IoMdSend />
-//               <p>Apply For Job/Recruit Suitable Candidates</p>
-//               <p>
-//                 Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-//                 Consequuntur, culpa.
-//               </p>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default HowItWorks;
-
-
-
-
-
 import React from "react";
-import { FaUserPlus } from "react-icons/fa";
-import { MdFindInPage } from "react-icons/md";
-import { IoMdSend } from "react-icons/io";
-import { Link } from "react-router-dom"; // 👈 ADD
+import { FiUserPlus, FiSearch, FiCheckCircle } from "react-icons/fi";
 
 const HowItWorks = () => {
+  const steps = [
+    {
+      icon: <FiUserPlus />,
+      title: "Set up your profile",
+      desc: "Create a standout profile that highlights your unique skills and personality.",
+    },
+    {
+      icon: <FiSearch />,
+      title: "Find your match",
+      desc: "Our AI helps you find companies that align with your values and goals.",
+    },
+    {
+      icon: <FiCheckCircle />,
+      title: "Get hired fast",
+      desc: "Direct chat with hiring managers. No more middle-men or waiting weeks.",
+    },
+  ];
+
   return (
-    <>
-      <div className="howitworks">
-        <div className="container">
-          <h3>How Career Connect Works !</h3>
+    <section style={{ backgroundColor: '#f8fafc', padding: '100px 20px' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '80px' }}>
+          <h2 style={{ fontSize: '2.5rem', fontWeight: 800, color: '#0f172a', marginBottom: '1rem' }}>
+            Built for the <span style={{ color: '#4f46e5' }}>next generation</span>
+          </h2>
+          <p style={{ color: '#64748b', fontSize: '1.1rem' }}>
+            A streamlined process designed for speed and transparency.
+          </p>
+        </div>
 
-          <div className="banner">
-            <div className="card">
-              <FaUserPlus />
-              <p>Create Account</p>
-              <p>
-                Create your account easily and start your journey with us.
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+          gap: '3rem' 
+        }}>
+          {steps.map((step, i) => (
+            <div key={i} style={{ 
+              textAlign: 'center', 
+              position: 'relative',
+              padding: '2rem',
+              backgroundColor: 'white',
+              borderRadius: '32px',
+              boxShadow: '0 10px 15px -3px rgba(0,0,0,0.05)'
+            }}>
+              <div style={{ 
+                width: '70px', 
+                height: '70px', 
+                borderRadius: '50%', 
+                backgroundColor: '#eff6ff', 
+                color: '#4f46e5', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                fontSize: '2rem', 
+                margin: '0 auto 2rem auto' 
+              }}>
+                {step.icon}
+              </div>
+              <h4 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#1a1a1a', marginBottom: '1rem' }}>
+                {step.title}
+              </h4>
+              <p style={{ color: '#64748b', lineHeight: 1.6 }}>
+                {step.desc}
               </p>
+              <div style={{ 
+                position: 'absolute', 
+                top: '1rem', 
+                right: '2rem', 
+                fontSize: '4rem', 
+                fontWeight: 900, 
+                color: '#f1f5f9', 
+                zIndex: 0 
+              }}>
+                {i + 1}
+              </div>
             </div>
-
-            <div className="card">
-              <MdFindInPage />
-              <p>Find a Job/Post a Job</p>
-              <p>
-                Search jobs or post openings to find the best candidates.
-              </p>
-            </div>
-
-            <div className="card">
-              <IoMdSend />
-              <p>Apply / Recruit</p>
-              <p>
-                Apply for jobs or recruit suitable candidates quickly.
-              </p>
-            </div>
-          </div>
-
-          {/* 🔥 GET STARTED BUTTON */}
-          <div style={{ textAlign: "center", marginTop: "40px" }}>
-            <Link to="/job/getall" className="get-started-btn">
-              Get Started 🚀
-            </Link>
-          </div>
+          ))}
         </div>
       </div>
-    </>
+    </section>
   );
 };
 
