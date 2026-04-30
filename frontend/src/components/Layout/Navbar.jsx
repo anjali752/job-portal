@@ -57,7 +57,7 @@ const Navbar = () => {
               color: "white", fontWeight: "bold", flexShrink: 0,
             }}>RX</div>
             <span style={{ fontSize: "1.25rem", fontWeight: 800, color: textColor, letterSpacing: "-0.5px" }}>
-              Recruiter<span style={{ color: "#4f46e5" }}>X</span>
+              Recruite<span style={{ color: "#4f46e5" }}>X</span>
             </span>
           </Link>
 

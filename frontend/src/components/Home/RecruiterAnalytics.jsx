@@ -120,17 +120,6 @@ const RecruiterAnalytics = () => {
 
         {/* Quick Insights */}
         <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-          <div className="glass-card" style={{ padding: "1.5rem", borderLeft: "4px solid #10b981", background: "#f0fdf4" }}>
-            <div style={{ display: "flex", gap: "1rem" }}>
-              <FiZap size={24} color="#10b981" />
-              <div>
-                <h4 style={{ margin: 0, fontSize: "1rem", fontWeight: 800, color: "#166534" }}>AI Insight</h4>
-                <p style={{ margin: "0.5rem 0 0 0", fontSize: "0.85rem", color: "#166534", lineHeight: 1.5 }}>
-                  Your "Positions Filled" rate is 20% higher than last month. Consider increasing current active job budget.
-                </p>
-              </div>
-            </div>
-          </div>
 
           <div className="glass-card" style={{ padding: "1.5rem" }}>
             <h4 style={{ margin: "0 0 1rem 0", fontSize: "1.1rem", fontWeight: 800 }}>Efficiency Ratio</h4>
@@ -144,24 +133,6 @@ const RecruiterAnalytics = () => {
             </div>
           </div>
 
-          <div className="glass-card" style={{ padding: "1.5rem", background: "linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)", color: "white" }}>
-            <h4 style={{ margin: "0 0 0.5rem 0", fontSize: "1.1rem", fontWeight: 800 }}>Pro Feature</h4>
-            <p style={{ margin: 0, fontSize: "0.85rem", opacity: 0.9, lineHeight: 1.5, marginBottom: "1.5rem" }}>
-              Export detailed PDF reports of your hiring performance.
-            </p>
-            <button style={{ 
-              width: "100%", 
-              padding: "0.75rem", 
-              borderRadius: "10px", 
-              border: "none", 
-              backgroundColor: "white", 
-              color: "#4f46e5", 
-              fontWeight: 800, 
-              cursor: "pointer" 
-            }}>
-              Generate Report
-            </button>
-          </div>
         </div>
       </div>
     </div>

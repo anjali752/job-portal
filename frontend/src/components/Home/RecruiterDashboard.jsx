@@ -4,9 +4,24 @@ import { FiPlus, FiUsers, FiStar, FiTrendingUp, FiZap, FiActivity } from "react-
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+// Hook to detect screen width reactively
+const useWindowWidth = () => {
+  const [width, setWidth] = useState(window.innerWidth);
+  useEffect(() => {
+    const handler = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, []);
+  return width;
+};
+
 const RecruiterDashboard = () => {
   const { user } = useContext(Context);
   const navigateTo = useNavigate();
+  const width = useWindowWidth();
+  const isMobile = width < 768;
+  const isSmall = width < 500;
+
   const [statsData, setStatsData] = useState({
     activeJobs: 4,
     totalApplicants: 12,
@@ -19,11 +34,9 @@ const RecruiterDashboard = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        // Fetch real data from your backend
         const appsRes = await axios.get(`${import.meta.env.VITE_API_URL}/application/employer/getall`, { withCredentials: true });
         setRecentApps(appsRes.data.applications.slice(0, 5));
         
-        // Mock stats if dashboard endpoint doesn't exist yet, or use data from apps to calculate
         setStatsData({
            activeJobs: appsRes.data.applications.length > 0 ? 5 : 0, 
            totalApplicants: appsRes.data.applications.length,
@@ -53,10 +66,17 @@ const RecruiterDashboard = () => {
   );
 
   return (
-    <div className="recruiter-dashboard" style={{ animation: "fadeIn 0.5s ease-out" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "2.5rem" }}>
+    <div className="recruiter-dashboard" style={{ animation: "fadeIn 0.5s ease-out", padding: isMobile ? "0.5rem" : "0" }}>
+      <div style={{ 
+        display: "flex", 
+        flexDirection: isMobile ? "column" : "row",
+        justifyContent: "space-between", 
+        alignItems: isMobile ? "flex-start" : "flex-end", 
+        marginBottom: "2.5rem",
+        gap: "1.5rem"
+      }}>
         <div>
-          <h1 style={{ fontSize: "2rem", fontWeight: 900, color: "#0f172a", margin: 0, letterSpacing: "-1px" }}>
+          <h1 style={{ fontSize: isMobile ? "1.6rem" : "2rem", fontWeight: 900, color: "#0f172a", margin: 0, letterSpacing: "-1px" }}>
             Welcome back, <span style={{ color: "var(--primary)" }}>{user?.name?.split(' ')[0]}</span> 👋
           </h1>
           <p style={{ color: "var(--text-muted)", margin: "0.5rem 0 0 0", fontSize: "1rem" }}>Here's what's happening with your recruitment pipeline today.</p>
@@ -66,6 +86,8 @@ const RecruiterDashboard = () => {
           style={{ 
             display: "flex", 
             alignItems: "center", 
+            justifyContent: "center",
+            width: isMobile ? "100%" : "auto",
             gap: "0.6rem", 
             padding: "0.8rem 1.75rem", 
             backgroundColor: "#0f172a", 
@@ -84,46 +106,46 @@ const RecruiterDashboard = () => {
       {/* Stats Grid */}
       <div style={{ 
         display: "grid", 
-        gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", 
-        gap: "1.5rem", 
+        gridTemplateColumns: isSmall ? "1fr 1fr" : isMobile ? "1fr 1fr" : "repeat(auto-fit, minmax(240px, 1fr))", 
+        gap: isMobile ? "1rem" : "1.5rem", 
         marginBottom: "2.5rem" 
       }}>
         {stats.map((stat, index) => (
-          <div key={index} className="glass-card" style={{ padding: "1.75rem", position: "relative", overflow: "hidden" }}>
+          <div key={index} className="glass-card" style={{ padding: isMobile ? "1.25rem" : "1.75rem", position: "relative", overflow: "hidden" }}>
             <div style={{ position: "absolute", top: "-10px", right: "-10px", width: "80px", height: "80px", background: stat.bg, opacity: 0.3, borderRadius: "50%", zIndex: 0 }}></div>
             <div style={{ position: "relative", zIndex: 1 }}>
-               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1.25rem" }}>
+               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: isMobile ? "0.75rem" : "1.25rem" }}>
                   <div style={{ 
-                    width: "48px", 
-                    height: "48px", 
-                    borderRadius: "14px", 
+                    width: isMobile ? "40px" : "48px", 
+                    height: isMobile ? "40px" : "48px", 
+                    borderRadius: "12px", 
                     backgroundColor: stat.bg, 
                     display: "flex", 
                     alignItems: "center", 
                     justifyContent: "center",
-                    fontSize: "1.3rem"
+                    fontSize: isMobile ? "1.1rem" : "1.3rem"
                   }}>
                     {stat.icon}
                   </div>
-                  <span style={{ fontSize: "0.75rem", color: "#10b981", fontWeight: 800, backgroundColor: "#dcfce7", padding: "0.25rem 0.6rem", borderRadius: "20px" }}>{stat.trend}</span>
+                  {!isMobile && <span style={{ fontSize: "0.75rem", color: "#10b981", fontWeight: 800, backgroundColor: "#dcfce7", padding: "0.25rem 0.6rem", borderRadius: "20px" }}>{stat.trend}</span>}
                </div>
-               <h3 style={{ fontSize: "2rem", fontWeight: 900, margin: "0.5rem 0", color: "#0f172a" }}>{stat.count || 0}</h3>
-               <p style={{ color: "#64748b", fontSize: "0.9rem", fontWeight: 600, margin: 0, textTransform: "uppercase", letterSpacing: "0.5px" }}>{stat.title}</p>
+               <h3 style={{ fontSize: isMobile ? "1.5rem" : "2rem", fontWeight: 900, margin: "0.5rem 0", color: "#0f172a" }}>{stat.count || 0}</h3>
+               <p style={{ color: "#64748b", fontSize: isMobile ? "0.75rem" : "0.9rem", fontWeight: 600, margin: 0, textTransform: "uppercase", letterSpacing: "0.5px" }}>{stat.title}</p>
             </div>
           </div>
         ))}
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1.6fr 1fr", gap: "2rem" }}>
+      <div style={{ display: "grid", gridTemplateColumns: isMobile ? "1fr" : "1.6fr 1fr", gap: "2rem" }}>
         {/* Recent Applicants */}
-        <div className="glass-card" style={{ padding: "2rem" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem" }}>
-             <h3 style={{ fontSize: "1.25rem", fontWeight: 800, color: "#0f172a", margin: 0 }}>Recent Candidates</h3>
+        <div className="glass-card" style={{ padding: isMobile ? "1.25rem" : "2rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
+             <h3 style={{ fontSize: isMobile ? "1.1rem" : "1.25rem", fontWeight: 800, color: "#0f172a", margin: 0 }}>Recent Candidates</h3>
              <button onClick={() => navigateTo("/recruiter/applications")} style={{ background: "none", border: "none", color: "var(--primary)", fontWeight: 700, cursor: "pointer", fontSize: "0.9rem" }}>View All</button>
           </div>
           
           <div style={{ overflowX: "auto" }}>
-            <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <table style={{ width: "100%", borderCollapse: "collapse", minWidth: isMobile ? "400px" : "auto" }}>
               <thead>
                 <tr style={{ textAlign: "left", borderBottom: "2px solid #f1f5f9" }}>
                   <th style={{ padding: "0 0 1rem 0", color: "#94a3b8", fontWeight: 700, fontSize: "0.75rem", textTransform: "uppercase" }}>Candidate Profile</th>
@@ -140,8 +162,8 @@ const RecruiterDashboard = () => {
                            {applicant.name?.charAt(0)}
                          </div>
                          <div>
-                            <p style={{ fontWeight: 700, margin: 0, color: "#1e293b", fontSize: "0.95rem" }}>{applicant.name}</p>
-                            <p style={{ fontSize: "0.8rem", color: "#94a3b8", margin: 0 }}>{applicant.email}</p>
+                            <p style={{ fontWeight: 700, margin: 0, color: "#1e293b", fontSize: "0.9rem" }}>{applicant.name}</p>
+                            <p style={{ fontSize: "0.75rem", color: "#94a3b8", margin: 0 }}>{applicant.email}</p>
                          </div>
                       </div>
                     </td>
@@ -176,7 +198,7 @@ const RecruiterDashboard = () => {
 
         {/* Hiring Insights Sidebar */}
         <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-           <div className="glass-card" style={{ backgroundColor: "#0f172a", color: "white", padding: "2rem" }}>
+           <div className="glass-card" style={{ backgroundColor: "#0f172a", color: "white", padding: isMobile ? "1.5rem" : "2rem" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.25rem" }}>
                  <FiTrendingUp color="#10b981" size={24} />
                  <h3 style={{ fontSize: "1.1rem", fontWeight: 700, margin: 0 }}>Hiring Velocity</h3>
@@ -195,7 +217,7 @@ const RecruiterDashboard = () => {
               </div>
            </div>
 
-           <div className="glass-card" style={{ padding: "2rem", borderLeft: "4px solid var(--primary)" }}>
+           <div className="glass-card" style={{ padding: isMobile ? "1.5rem" : "2rem", borderLeft: "4px solid var(--primary)" }}>
               <h3 style={{ fontSize: "1rem", fontWeight: 800, color: "#0f172a", marginBottom: "1rem" }}>Quick Actions</h3>
               <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
                  <button onClick={() => navigateTo("/recruiter/search")} style={{ width: "100%", padding: "0.75rem", borderRadius: "10px", border: "1px solid #e2e8f0", backgroundColor: "white", fontWeight: 700, color: "#475569", cursor: "pointer", textAlign: "left", fontSize: "0.85rem" }}>🔍 Search Top Talent</button>

@@ -58,6 +58,11 @@ const jobSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  jobType: {
+    type: String,
+    enum: ["Job", "Internship"],
+    default: "Job",
+  },
 });
 
 export const Job = mongoose.model("Job", jobSchema);

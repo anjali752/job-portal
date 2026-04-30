@@ -91,6 +91,7 @@ import MyJobs from "./components/Job/MyJobs";
 import ChatPage from "./pages/ChatPage";
 import ResumeAnalyzer from "./components/ResumeAnalyzer";
 import SavedJobs from "./components/Job/SavedJobs";
+import Messages from "./components/Messages/Messages";
 
 import SeekerLayout from "./components/Layout/SeekerLayout";
 import RecruiterLayout from "./components/Layout/RecruiterLayout";
@@ -156,6 +157,7 @@ const AppLayout = () => {
             <Route path="saved" element={<SavedJobs />} />
             <Route path="resume" element={<ResumeAnalyzer />} />
             <Route path="chat" element={<ChatPage />} />
+            <Route path="messages" element={<Messages />} />
             <Route path="profile" element={<Profile />} />
           </Route>
 
@@ -170,6 +172,7 @@ const AppLayout = () => {
             <Route path="application/:id" element={<ApplicationDetail />} />
             <Route path="analytics" element={<RecruiterAnalytics />} />
             <Route path="search" element={<TalentSearch />} />
+            <Route path="messages" element={<Messages />} />
             <Route path="profile" element={<Profile />} />
           </Route>
 

@@ -30,10 +30,122 @@ const userSchema = new mongoose.Schema({
     required: [true, "Please select a role"],
     enum: ["Job Seeker", "Employer"],
   },
+  // Recruiter/Company Profile Section
+  companyLegalName: { type: String },
+  companyName: { type: String }, // Restored
+  companyRegistrationNumber_CIN: { type: String },
+  gstNumber: { type: String },
+  companyWebsite: {
+    type: String,
+    validate: {
+      validator: (v) => !v || validator.isURL(v),
+      message: "Please enter a valid URL for Company Website!"
+    }
+  },
+  officialCompanyEmail: {
+    type: String,
+    validate: {
+      validator: (v) => !v || validator.isEmail(v),
+      message: "Please provide a valid business email!"
+    }
+  },
+  industryType: { type: String },
+  companySize: {
+    type: String,
+    enum: {
+      values: ["1-10", "11-50", "51-200", "201-500", "500+", ""], // Allow empty string
+      message: "{VALUE} is not a valid company size"
+    }
+  },
+  yearOfEstablishment: { type: Number },
+  officeAddress: {
+    street: String,
+    city: String,
+    state: String,
+    pincode: String,
+  },
+  address: { type: String }, // Restored
+  recruiterFullName: { type: String },
+  recruiterWorkEmail: {
+    type: String,
+    validate: {
+      validator: (v) => !v || validator.isEmail(v),
+      message: "Please provide a valid work email!"
+    }
+  },
+  recruiterPhoneNumber: { type: String },
+  recruiterLinkedInURL: {
+    type: String,
+    validate: {
+      validator: (v) => !v || validator.isURL(v),
+      message: "Please enter a valid LinkedIn URL!"
+    }
+  },
+  jobTitle: { type: String }, // Restored
+  bio: { type: String }, // Restored
+  documents: {
+    companyRegistrationCertificate: { public_id: String, url: String },
+    gstCertificate: { public_id: String, url: String },
+    officeAddressProof: { public_id: String, url: String },
+    recruiterIdProof: { public_id: String, url: String },
+  },
+  verificationStatus: {
+    type: String,
+    enum: ["pending", "approved", "rejected"],
+    default: "pending",
+  },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
+  profileViews: {
+    type: Number,
+    default: 0
+  },
+  avatar: {
+    public_id: {
+      type: String,
+    },
+    url: {
+      type: String,
+    },
+  },
+  professionalSummary: {
+    type: String,
+    maxLength: [1000, "Summary cannot exceed 1000 characters!"],
+  },
+  skills: [
+    {
+      type: String,
+    },
+  ],
+  education: [
+    {
+      institution: String,
+      degree: String,
+      year: String,
+    },
+  ],
+  experience: [
+    {
+      company: String,
+      role: String,
+      duration: String,
+      description: String,
+    },
+  ],
+  portfolioUrl: String,
+  githubProfile: String,
   createdAt: {
     type: Date,
     default: Date.now,
   },
+  savedJobs: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Job",
+    },
+  ],
 });
 
 

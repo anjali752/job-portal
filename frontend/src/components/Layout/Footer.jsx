@@ -40,7 +40,7 @@ const Footer = () => {
                 color: 'white',
                 fontWeight: 'bold'
               }}>RX</div>
-              <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'white', letterSpacing: '-0.5px' }}>Recruiter<span style={{ color: '#4f46e5' }}>X</span></span>
+              <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'white', letterSpacing: '-0.5px' }}>Recruite<span style={{ color: '#4f46e5' }}>X</span></span>
             </div>
             <p style={{ lineHeight: 1.6, maxWidth: '300px', marginBottom: '2rem' }}>
               The premium recruitment ecosystem connecting elite talent with industry-leading companies through AI-driven matching.
@@ -93,7 +93,7 @@ const Footer = () => {
             <h4 style={{ color: 'white', marginBottom: '1.5rem', fontSize: '1rem', fontWeight: 700 }}>Contact</h4>
             <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
               <li style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.9rem' }}>
-                <FiMail style={{ color: '#4f46e5' }} /> support@recruiterx.com
+                <FiMail style={{ color: '#4f46e5' }} /> support@recruitex.com
               </li>
               <li style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '0.9rem' }}>
                 <FiPhone style={{ color: '#4f46e5' }} /> +91 (800) 123-4567
@@ -116,7 +116,7 @@ const Footer = () => {
           gap: '1rem'
         }}>
           <p style={{ fontSize: '0.85rem' }}>
-            &copy; {new Date().getFullYear()} RecruiterX. All rights reserved.
+            &copy; {new Date().getFullYear()} RecruiteX. All rights reserved.
           </p>
           <div style={{ display: 'flex', gap: '2rem', fontSize: '0.85rem' }}>
             <Link to="#" style={{ color: 'inherit', textDecoration: 'none' }}>Terms of Service</Link>
