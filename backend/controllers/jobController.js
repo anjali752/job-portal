@@ -1,9 +1,9 @@
-import { catchAsyncErrors } from "../middlewares/catchAsyncError.js";
+import { catchAsyncErrors } from "../middlewares/catchAsyncErrors.js";
 import { Job } from "../models/jobSchema.js";
 import ErrorHandler from "../middlewares/error.js";
 
 export const getAllJobs = catchAsyncErrors(async (req, res, next) => {
-  const jobs = await Job.find({ expired: false });
+  const jobs = await Job.find();
   res.status(200).json({
     success: true,
     jobs,
@@ -27,6 +27,7 @@ export const postJob = catchAsyncErrors(async (req, res, next) => {
     fixedSalary,
     salaryFrom,
     salaryTo,
+    jobType,
   } = req.body;
 
   if (!title || !description || !category || !country || !city || !location) {
@@ -58,6 +59,7 @@ export const postJob = catchAsyncErrors(async (req, res, next) => {
     fixedSalary,
     salaryFrom,
     salaryTo,
+    jobType,
     postedBy,
   });
   res.status(200).json({
@@ -93,6 +95,12 @@ export const updateJob = catchAsyncErrors(async (req, res, next) => {
   if (!job) {
     return next(new ErrorHandler("OOPS! Job not found.", 404));
   }
+
+  // Ownership Validation: Ensure only the creator can update the job
+  if (job.postedBy.toString() !== req.user._id.toString()) {
+    return next(new ErrorHandler("You are not authorized to update this job.", 403));
+  }
+
   job = await Job.findByIdAndUpdate(id, req.body, {
     new: true,
     runValidators: true,
@@ -116,6 +124,12 @@ export const deleteJob = catchAsyncErrors(async (req, res, next) => {
   if (!job) {
     return next(new ErrorHandler("OOPS! Job not found.", 404));
   }
+
+  // Ownership Validation: Ensure only the creator can delete the job
+  if (job.postedBy.toString() !== req.user._id.toString()) {
+    return next(new ErrorHandler("You are not authorized to delete this job.", 403));
+  }
+
   await job.deleteOne();
   res.status(200).json({
     success: true,
@@ -138,3 +152,4 @@ export const getSingleJob = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler(`Invalid ID / CastError`, 404));
   }
 });
+

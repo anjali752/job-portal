@@ -8,6 +8,15 @@
    xl: < 1280px  (small desktops)
    ============================================ */
 
+/* ---- GLOBAL CONTAINER ---- */
+.container, .container-v2 {
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 1.25rem !important;
+  box-sizing: border-box !important;
+}
+
 /* ---- NAVBAR ---- */
 @media (max-width: 768px) {
   .nav-links-desktop,
@@ -29,7 +38,7 @@
     align-items: center;
     justify-content: center;
     gap: 2rem;
-    animation: fadeIn 0.25s ease;
+    animation: fadeIn 0.15s ease;
   }
 
   .mobile-nav-menu a,
@@ -39,15 +48,6 @@
     color: #0f172a !important;
     text-decoration: none !important;
     padding: 0.5rem 1rem;
-    transition: color 0.2s;
-  }
-
-  .mobile-nav-menu a:hover { color: #4f46e5 !important; }
-
-  .mobile-nav-close {
-    position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
   }
 }
 
@@ -59,50 +59,44 @@
 /* ---- HERO SECTION ---- */
 @media (max-width: 768px) {
   .hero-v2 {
-    padding: 5rem 1.25rem 3rem !important;
+    padding: 4rem 1rem !important;
+    text-align: center !important;
   }
 
   .hero-v2 h1 {
-    font-size: clamp(2rem, 8vw, 3rem) !important;
-    letter-spacing: -1px !important;
+    font-size: clamp(1.75rem, 10vw, 3rem) !important;
+    letter-spacing: -0.5px !important;
+    line-height: 1.2 !important;
   }
 
   .hero-v2 p {
     font-size: 1rem !important;
-  }
-
-  .hero-buttons {
-    flex-direction: column !important;
-    align-items: stretch !important;
-  }
-
-  .hero-buttons a {
-    text-align: center !important;
-    width: 100% !important;
+    margin-bottom: 2rem !important;
   }
 
   .stats-grid-v2 {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important;
+    grid-template-columns: 1fr !important;
     gap: 1rem !important;
     margin-top: 3rem !important;
   }
 }
 
-@media (max-width: 480px) {
-  .stats-grid-v2 {
-    grid-template-columns: 1fr 1fr !important;
-  }
-}
-
 /* ---- HOW IT WORKS ---- */
 @media (max-width: 768px) {
-  .howitworks-grid {
+  .howitworks-grid, 
+  section div[style*="gridTemplateColumns: 'repeat(auto-fit, minmax(300px'"] {
     grid-template-columns: 1fr !important;
     gap: 1.5rem !important;
   }
 
-  section[style*="padding: '100px 20px'"] {
-    padding: 60px 16px !important;
+  section[style*="padding: '100px 20px'"],
+  section {
+    padding: 3rem 1.25rem !important;
+  }
+  
+  h2 {
+    font-size: 1.75rem !important;
+    margin-bottom: 1.5rem !important;
   }
 }
 
@@ -114,13 +108,14 @@
     gap: 0.75rem !important;
   }
 
-  .categories-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
+  .categories-grid, 
+  .categories-grid div {
+    grid-template-columns: 1fr 1fr !important;
     gap: 1rem !important;
   }
 }
 
-@media (max-width: 360px) {
+@media (max-width: 380px) {
   .categories-grid {
     grid-template-columns: 1fr !important;
   }
@@ -145,63 +140,27 @@
 
   .mobile-toggle {
     display: flex !important;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
   }
-}
-
-/* ---- DASHBOARD HEADER ---- */
-@media (max-width: 640px) {
+  
   .dashboard-header {
+    left: 0 !important;
     padding: 0 1rem !important;
-    height: 60px !important;
-  }
-
-  .dashboard-header .search-bar {
-    display: none !important;
-  }
-
-  .dashboard-header .user-profile div:first-child {
-    display: none !important;
   }
 }
 
-/* ---- DASHBOARD MAIN ---- */
-@media (max-width: 768px) {
-  .dashboard-main {
+/* ---- GLOBAL FORM FIXES ---- */
+@media (max-width: 640px) {
+  input, select, textarea, button {
+    font-size: 16px !important; /* Prevents iOS auto-zoom */
+  }
+  
+  .authPage {
     padding: 1rem !important;
   }
-}
-
-/* ---- STAT CARDS / KPI GRIDS ---- */
-/* Handled in JS via useWindowWidth hook in SeekerDashboard */
-/* RecruiterDashboard analytics grid */
-@media (max-width: 640px) {
-  .analytics-container .kpi-grid {
-    grid-template-columns: 1fr 1fr !important;
-    gap: 0.75rem !important;
-  }
-}
-
-@media (max-width: 380px) {
-  .analytics-container .kpi-grid {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-/* ---- SEEKER DASHBOARD 2-COL LAYOUT ---- */
-/* Handled in JS via useWindowWidth hook - CSS as fallback */
-@media (max-width: 768px) {
-  .seeker-two-col {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-/* ---- RECRUITER ANALYTICS ---- */
-@media (max-width: 1024px) {
-  .analytics-container > div:last-child {
-    grid-template-columns: 1fr !important;
+  
+  .authPage .container {
+    width: 100% !important;
+    padding: 1.5rem !important;
   }
 }
 
@@ -213,71 +172,12 @@
   }
 }
 
-/* ---- APPLICATIONS LIST ---- */
-@media (max-width: 640px) {
-  .application-card {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 0.75rem !important;
-  }
-
-  .app-card-meta {
-    flex-wrap: wrap !important;
-    gap: 0.5rem !important;
-  }
-}
-
-/* ---- JOBS LIST ---- */
-@media (max-width: 640px) {
-  .jobs-filters {
-    flex-direction: column !important;
-    gap: 0.75rem !important;
-  }
-
-  .jobs-filters select,
-  .jobs-filters input {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-}
-
-/* ---- AUTH PAGES ---- */
-@media (max-width: 768px) {
-  .authPage {
-    flex-direction: column !important;
-    min-width: 100% !important;
-  }
-
-  .authPage .banner {
-    display: none !important;
-  }
-
-  .authPage .container {
-    width: 100% !important;
-    padding: 2rem 1.25rem !important;
-    min-height: 100vh;
-  }
-}
-
-/* ---- PROFILE PAGE ---- */
-@media (max-width: 768px) {
-  .profile-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  .profile-header {
-    flex-direction: column !important;
-    text-align: center !important;
-    align-items: center !important;
-  }
-}
-
 /* ---- FOOTER ---- */
 @media (max-width: 640px) {
   .footerShow {
     flex-direction: column-reverse !important;
-    gap: 1.5rem !important;
-    padding: 2rem 1.25rem !important;
+    gap: 2rem !important;
+    padding: 3rem 1.25rem !important;
     text-align: center !important;
   }
 
@@ -286,88 +186,13 @@
   }
 }
 
-/* ---- APPLICATION DETAIL PAGE ---- */
-@media (max-width: 640px) {
-  .detail-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  .detail-header {
-    flex-direction: column !important;
-    gap: 1rem !important;
-  }
-}
-
-/* ---- CHATBOT ---- */
-@media (max-width: 480px) {
-  .chatbot-window {
-    width: calc(100vw - 2rem) !important;
-    right: 1rem !important;
-    left: 1rem !important;
-    bottom: 1rem !important;
-    height: 70vh !important;
-  }
-
-  .chatbot-toggle {
-    bottom: 1rem !important;
-    right: 1rem !important;
-  }
-}
-
-/* ---- TALENT SEARCH PAGE ---- */
-@media (max-width: 768px) {
-  .talent-search-grid {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-/* ---- RECRUITER DASHBOARD ---- */
-@media (max-width: 768px) {
-  .recruiter-analytics-grid {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-/* ---- GLOBAL TYPOGRAPHY SCALE ---- */
-@media (max-width: 768px) {
-  h1 { font-size: 2rem !important; }
-  h2 { font-size: 1.75rem !important; }
-  h3 { font-size: 1.4rem !important; }
-  h4 { font-size: 1.2rem !important; }
-  h5 { font-size: 1rem !important; }
-  p  { font-size: 0.95rem !important; }
-}
-
-@media (max-width: 480px) {
-  h1 { font-size: 1.75rem !important; }
-  h2 { font-size: 1.5rem !important; }
-  h3 { font-size: 1.25rem !important; }
-}
-
 /* ---- PREVENT HORIZONTAL SCROLL GLOBALLY ---- */
 html, body {
   overflow-x: hidden !important;
   width: 100% !important;
+  position: relative;
 }
 
-/* ---- TOUCH FRIENDLINESS ---- */
-@media (max-width: 768px) {
-  button, a, input, select, textarea {
-    min-height: 44px;
-  }
-
-  .sidebar-menu a {
-    padding: 1rem 1.25rem !important;
-  }
-}
-
-/* ---- MAIN CONTENT PADDING ---- */
-.main-content-with-nav {
-  padding-top: 70px;
-}
-
-@media (max-width: 768px) {
-  .main-content-with-nav {
-    padding-top: 60px;
-  }
+* {
+  box-sizing: border-box;
 }

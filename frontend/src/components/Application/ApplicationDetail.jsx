@@ -13,9 +13,8 @@ import {
   FiCheckCircle, 
   FiXCircle, 
   FiClock,
-  FiZap,
   FiShield,
-  FiBriefcase
+  FiBriefcase,
 } from "react-icons/fi";
 
 const ApplicationDetail = () => {
@@ -76,10 +75,10 @@ const ApplicationDetail = () => {
     }
   };
 
+
   return (
     <div className="app-detail-page" style={{ padding: "2.5rem", maxWidth: "1000px", margin: "0 auto", backgroundColor: "#fcfdff" }}>
        
-       {/* Simple Header */}
        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2.5rem" }}>
           <button 
             onClick={() => navigateTo(-1)}
@@ -92,7 +91,6 @@ const ApplicationDetail = () => {
           </div>
        </div>
 
-       {/* Targeted Position Bar */}
        <div style={{ padding: "1.25rem 2rem", backgroundColor: "white", border: "1px solid #e2e8f0", borderRadius: "12px", marginBottom: "2rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
              <FiBriefcase color="var(--primary)" size={20} />
@@ -114,8 +112,7 @@ const ApplicationDetail = () => {
                    Data Structure Representation
                 </h3>
 
-                {/* Info Matrix */}
-                <div style={{ display: "flex", flexDirection: "column", border: "1px solid #f1f5f9", borderRadius: "12px", overflow: "hidden", marginBottom: "3rem" }}>
+                <div style={{ display: "flex", flexDirection: "column", border: "1px solid #f1f5f9", borderRadius: "12px", overflow: "hidden", marginBottom: "2rem" }}>
                    <ManifestRow label="Full Name" value={application.name} isEven />
                    <ManifestRow label="Email Address" value={application.email} />
                    <ManifestRow label="Phone Number" value={application.phone} isEven />
@@ -124,7 +121,7 @@ const ApplicationDetail = () => {
                    <ManifestRow label="Hiring Status" value={application.status.toUpperCase()} statusColor={getStatusColor(application.status)} />
                 </div>
 
-                <div style={{ marginBottom: "2rem" }}>
+                <div>
                    <h4 style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.9rem", fontWeight: 800, color: "#64748b", margin: "0 0 1rem 0", textTransform: "uppercase" }}>
                       <FiFileText /> Cover Letter Content
                    </h4>
@@ -172,6 +169,7 @@ const ApplicationDetail = () => {
              </div>
           </aside>
        </div>
+
     </div>
   );
 };
@@ -186,16 +184,6 @@ const ManifestRow = ({ label, value, isEven, statusColor }) => (
   }}>
     <span style={{ fontSize: "0.85rem", fontWeight: 800, color: "#94a3b8" }}>{label}</span>
     <span style={{ fontSize: "0.9rem", fontWeight: 700, color: statusColor || "#1e293b" }}>{value}</span>
-  </div>
-);
-
-const DetailBox = ({ icon, label, value }) => (
-  <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-     <span style={{ fontSize: "0.75rem", fontWeight: 800, color: "#94a3b8", textTransform: "uppercase" }}>{label}</span>
-     <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", color: "#1e293b", fontWeight: 700 }}>
-        <span style={{ color: "#94a3b8" }}>{icon}</span>
-        {value}
-     </div>
   </div>
 );
 
