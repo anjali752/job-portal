@@ -20,7 +20,7 @@ const Login = () => {
     setLoading(true);
     try {
       const { data } = await axios.post(
-        `${import.meta.env.VITE_API_URL}/user/login`,
+        `${import.meta.env.VITE_API_URL}/api/v1/user/login`,
         { email, password, role },
         {
           headers: { "Content-Type": "application/json" },
@@ -45,9 +45,9 @@ const Login = () => {
   return (
     <section style={{ minHeight: '100vh', display: 'flex', backgroundColor: '#f8fafc' }}>
       {/* Visual Side */}
-      <div style={{ 
-        flex: 1.2, 
-        backgroundColor: '#0f172a', 
+      <div style={{
+        flex: 1.2,
+        backgroundColor: '#0f172a',
         backgroundImage: 'linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url("https://images.unsplash.com/photo-1497215728101-856f4ea42174?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -58,12 +58,12 @@ const Login = () => {
         color: 'white'
       }}>
         <div style={{ maxWidth: '500px' }}>
-           <h2 style={{ fontSize: '3.5rem', fontWeight: 900, lineHeight: 1.1, marginBottom: '2rem' }}>
-             Welcome back to the <span style={{ color: '#4f46e5' }}>future</span> of work.
-           </h2>
-           <p style={{ fontSize: '1.25rem', opacity: 0.8, lineHeight: 1.6 }}>
-             Log in to access your dashboard, track applications, and manage your hiring pipeline.
-           </p>
+          <h2 style={{ fontSize: '3.5rem', fontWeight: 900, lineHeight: 1.1, marginBottom: '2rem' }}>
+            Welcome back to the <span style={{ color: '#4f46e5' }}>future</span> of work.
+          </h2>
+          <p style={{ fontSize: '1.25rem', opacity: 0.8, lineHeight: 1.6 }}>
+            Log in to access your dashboard, track applications, and manage your hiring pipeline.
+          </p>
         </div>
       </div>
 
@@ -81,13 +81,13 @@ const Login = () => {
                 { label: 'Candidate', val: 'Job Seeker', icon: <FiUser /> },
                 { label: 'Employer', val: 'Employer', icon: <FiBriefcase /> }
               ].map((item) => (
-                <div 
+                <div
                   key={item.val}
                   onClick={() => setRole(item.val)}
-                  style={{ 
-                    flex: 1, 
-                    padding: '1rem', 
-                    borderRadius: '12px', 
+                  style={{
+                    flex: 1,
+                    padding: '1rem',
+                    borderRadius: '12px',
                     border: `2px solid ${role === item.val ? '#4f46e5' : '#e2e8f0'}`,
                     backgroundColor: role === item.val ? '#eff6ff' : 'white',
                     cursor: 'pointer',
@@ -107,11 +107,11 @@ const Login = () => {
 
             <div style={{ position: 'relative' }}>
               <FiMail style={{ position: 'absolute', top: '50%', left: '1rem', transform: 'translateY(-50%)', color: '#94a3b8' }} />
-              <input 
-                type="email" 
-                placeholder="Email Address" 
-                value={email} 
-                onChange={(e) => setEmail(e.target.value)} 
+              <input
+                type="email"
+                placeholder="Email Address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
                 style={{ width: '100%', padding: '1rem 1rem 1rem 3rem', borderRadius: '12px', border: '1px solid #e2e8f0', outlineColor: '#4f46e5' }}
               />
@@ -119,15 +119,15 @@ const Login = () => {
 
             <div style={{ position: 'relative' }}>
               <FiLock style={{ position: 'absolute', top: '50%', left: '1rem', transform: 'translateY(-50%)', color: '#94a3b8' }} />
-              <input 
-                type={showPassword ? "text" : "password"} 
-                placeholder="Password" 
-                value={password} 
-                onChange={(e) => setPassword(e.target.value)} 
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required
                 style={{ width: '100%', padding: '1rem 3rem', borderRadius: '12px', border: '1px solid #e2e8f0', outlineColor: '#4f46e5' }}
               />
-              <div 
+              <div
                 onClick={() => setShowPassword(!showPassword)}
                 style={{ position: 'absolute', top: '50%', right: '1rem', transform: 'translateY(-50%)', cursor: 'pointer', color: '#94a3b8' }}
               >
@@ -139,17 +139,17 @@ const Login = () => {
               <Link to="/forgot-password" style={{ color: '#4f46e5', fontSize: '0.85rem', fontWeight: 600, textDecoration: 'none' }}>Forgot password?</Link>
             </div>
 
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               disabled={loading}
-              style={{ 
-                width: '100%', 
-                padding: '1rem', 
-                backgroundColor: '#0f172a', 
-                color: 'white', 
-                borderRadius: '12px', 
-                fontWeight: 700, 
-                border: 'none', 
+              style={{
+                width: '100%',
+                padding: '1rem',
+                backgroundColor: '#0f172a',
+                color: 'white',
+                borderRadius: '12px',
+                fontWeight: 700,
+                border: 'none',
                 cursor: 'pointer'
               }}
             >
