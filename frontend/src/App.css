@@ -40,17 +40,17 @@
 
 .dashboard-sidebar {
   width: 280px;
-  background-color: var(--sidebar-bg);
-  border-right: 1px solid var(--border-color);
+  background-color: #0f172a;
   display: flex;
   flex-direction: column;
   height: 100vh;
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 100;
-  padding: 1.5rem 0;
-  transition: var(--transition);
+  z-index: 200;
+  padding: 0;
+  overflow: hidden;
+  transition: transform 0.3s ease;
 }
 
 .dashboard-sidebar .logo {

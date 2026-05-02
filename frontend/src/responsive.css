@@ -122,17 +122,8 @@
 }
 
 /* ---- DASHBOARD LAYOUT ---- */
+/* Sidebar mobile behavior is handled inside SeekerLayout.jsx / RecruiterLayout.jsx */
 @media (max-width: 1024px) {
-  .dashboard-sidebar {
-    transform: translateX(-100%);
-    z-index: 200 !important;
-    box-shadow: 4px 0 24px rgba(0,0,0,0.12);
-  }
-
-  .dashboard-sidebar.open {
-    transform: translateX(0) !important;
-  }
-
   .dashboard-content {
     margin-left: 0 !important;
     width: 100% !important;

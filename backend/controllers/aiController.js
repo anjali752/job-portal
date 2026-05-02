@@ -2,9 +2,7 @@ import { catchAsyncErrors } from "../middlewares/catchAsyncErrors.js";
 import ErrorHandler from "../middlewares/error.js";
 import fs from "fs";
 import mammoth from "mammoth";
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-const pdf = require('pdf-parse');
+import { PDFParse } from "pdf-parse";
 import { runAI } from "../services/aiService.js";
 
 const SEEKER_PROMPT = `You are RecruiteX AI, a professional career coach for Job Seekers on the RecruiteX portal. 
@@ -57,10 +55,15 @@ export const analyzeResumeController = catchAsyncErrors(async (req, res, next) =
     
     if (file.mimetype === "application/pdf") {
         try {
-            const data = await pdf(fileBuffer);
-            resumeText = data.text;
+            const parser = new PDFParse({ data: fileBuffer });
+            const result = await parser.getText();
+            resumeText = result.text;
+            if (!resumeText || resumeText.trim().length < 10) {
+              return next(new ErrorHandler("PDF appears to be empty or scanned. Please upload a text-based PDF.", 400));
+            }
         } catch (err) {
-            return next(new ErrorHandler("Could not parse PDF. Please ensure it's not a scanned image.", 400));
+            console.error("PDF Parse Error:", err.message);
+            return next(new ErrorHandler("Could not parse PDF. Please ensure it's a text-based PDF, not a scanned image.", 400));
         }
     } else if (file.name?.endsWith(".docx") || file.mimetype === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
         try {

@@ -44,6 +44,7 @@ const Chatbot = () => {
       const res = await fetch(`${apiBase}/api/ai/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ 
           message: userInput,
           role: user?.role 

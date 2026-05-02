@@ -92,82 +92,102 @@ const SeekerLayout = () => {
         />
       )}
 
-      {/* Sidebar */}
-      <aside className={`dashboard-sidebar ${sidebarOpen ? "open" : ""}`} style={{
-        left: isMobile && !sidebarOpen ? '-280px' : '0',
-        transition: 'all 0.3s ease',
-        backgroundColor: '#0f172a',
-        borderRight: 'none',
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column'
-      }}>
-        <div className="logo" style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', padding: '0.75rem 1.5rem 0 1.5rem' }}>
-          <div style={{ 
-            width: '54px', 
-            height: '54px', 
-            background: 'linear-gradient(135deg, var(--primary) 0%, #4338ca 100%)', 
+      {/* Sidebar - All critical styles are INLINE to prevent any CSS conflicts */}
+      <aside
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '280px',
+          height: '100%',
+          backgroundColor: '#0f172a',
+          display: 'flex',
+          flexDirection: 'column',
+          zIndex: 300,
+          transform: isMobile && !sidebarOpen ? 'translateX(-280px)' : 'translateX(0)',
+          transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          boxShadow: sidebarOpen && isMobile ? '8px 0 32px rgba(0,0,0,0.4)' : 'none',
+          overflow: 'hidden',
+        }}
+      >
+        {/* ── TOP: Logo Header ── */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.85rem',
+          padding: '1.75rem 1.5rem 1.5rem',
+          flexShrink: 0,
+        }}>
+          {/* RX Icon - matches Image 1 size */}
+          <div style={{
+            width: '54px', height: '54px', flexShrink: 0,
+            background: 'linear-gradient(135deg, #4f46e5 0%, #4338ca 100%)',
             borderRadius: '14px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'white',
-            fontWeight: 900,
-            fontSize: '1.6rem',
-            boxShadow: '0 8px 16px -4px rgba(79, 70, 229, 0.4)'
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: 'white', fontWeight: 900, fontSize: '1.4rem',
+            letterSpacing: '-1px',
+            boxShadow: '0 8px 16px -4px rgba(79,70,229,0.5)',
           }}>RX</div>
+          {/* Brand Name */}
           <div>
-            <span style={{ fontSize: '1.8rem', fontWeight: 950, color: 'white', display: 'block', lineHeight: 1, letterSpacing: '-1.5px' }}>Recruite<span style={{ color: 'var(--primary)' }}>X</span></span>
-            <span style={{ fontSize: '0.7rem', fontWeight: 800, color: '#64748b', letterSpacing: '1.5px', marginTop: '2px', display: 'block', textTransform: 'uppercase' }}>Dream Finder</span>
+            <div style={{ fontSize: '1.8rem', fontWeight: 950, color: 'white', letterSpacing: '-1.5px', lineHeight: 1 }}>
+              Recruite<span style={{ color: 'var(--primary, #4f46e5)' }}>X</span>
+            </div>
+            <div style={{ fontSize: '0.65rem', fontWeight: 800, color: '#64748b', letterSpacing: '1.5px', textTransform: 'uppercase', marginTop: '2px' }}>
+              Dream Finder
+            </div>
           </div>
         </div>
-        
-        <nav className="sidebar-menu" style={{ marginTop: '1rem', flex: 1 }}>
-          {visibleLinks.map((link) => (
-            <Link 
-              key={link.name} 
-              to={link.path}
-              className={location.pathname === link.path ? "active" : ""}
-              onClick={() => isMobile && setSidebarOpen(false)}
-              style={{
-                margin: '0.2rem 1rem',
-                padding: '0.9rem 1.25rem',
-                fontSize: '0.9rem',
-                borderRadius: '12px',
-                color: location.pathname === link.path ? 'white' : '#94a3b8',
-                backgroundColor: location.pathname === link.path ? 'rgba(79, 70, 229, 0.15)' : 'transparent',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '1rem',
-                textDecoration: 'none',
-                fontWeight: 600,
-                transition: '0.2s',
-                borderLeft: location.pathname === link.path ? '3px solid var(--primary)' : '3px solid transparent'
-              }}
-            >
-              <span style={{ fontSize: '1.3rem', color: location.pathname === link.path ? 'var(--primary)' : '#64748b' }}>{link.icon}</span>
-              <span>{link.name}</span>
-            </Link>
-          ))}
-          
-          <div style={{ marginTop: 'auto', padding: '1rem' }}>
-            <a href="#" onClick={(e) => { e.preventDefault(); handleLogout(); }} style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '1rem',
-              padding: '0.9rem 1.25rem',
-              borderRadius: '12px',
-              color: '#f87171',
-              textDecoration: 'none',
-              fontWeight: 700,
-              fontSize: '0.9rem',
-              transition: '0.2s'
-            }}>
-              <FiLogOut style={{ fontSize: '1.3rem' }} />
-              <span>Logout Account</span>
-            </a>
-          </div>
+
+        {/* ── MIDDLE: Navigation ── */}
+        <nav style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', padding: '0.5rem 0', marginTop: '0.5rem' }}>
+          {visibleLinks.map((link) => {
+            const isActive = location.pathname === link.path;
+            return (
+              <Link
+                key={link.name}
+                to={link.path}
+                onClick={() => isMobile && setSidebarOpen(false)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '1rem',
+                  margin: '0.2rem 1rem',
+                  padding: '0.9rem 1.25rem',
+                  borderRadius: '12px',
+                  textDecoration: 'none',
+                  fontWeight: 600,
+                  fontSize: '0.9rem',
+                  color: isActive ? '#fff' : '#94a3b8',
+                  backgroundColor: isActive ? 'rgba(79,70,229,0.15)' : 'transparent',
+                  borderLeft: isActive ? '3px solid var(--primary, #4f46e5)' : '3px solid transparent',
+                  transition: 'all 0.2s',
+                }}
+              >
+                <span style={{ fontSize: '1.3rem', color: isActive ? 'var(--primary, #4f46e5)' : '#64748b', flexShrink: 0 }}>{link.icon}</span>
+                <span>{link.name}</span>
+              </Link>
+            );
+          })}
         </nav>
+
+        {/* ── BOTTOM: Logout only (matches Image 1) ── */}
+        <div style={{ flexShrink: 0, padding: '0.5rem 1rem 1.5rem' }}>
+          <a
+            href="#"
+            onClick={(e) => { e.preventDefault(); handleLogout(); }}
+            style={{
+              display: 'flex', alignItems: 'center', gap: '1rem',
+              padding: '0.9rem 1.25rem', borderRadius: '12px',
+              color: '#f87171', textDecoration: 'none',
+              fontWeight: 700, fontSize: '0.9rem',
+              transition: '0.2s',
+            }}
+          >
+            <FiLogOut style={{ fontSize: '1.3rem', flexShrink: 0 }} />
+            <span>Logout Account</span>
+          </a>
+        </div>
       </aside>
 
       {/* Main Content Area */}
@@ -258,44 +278,40 @@ const SeekerLayout = () => {
           background-color: #f8fafc;
           display: flex;
         }
+
+        /* ── Sidebar Base ── */
         .dashboard-sidebar {
           width: 280px;
           height: 100vh;
-          background-color: white;
-          border-right: 1px solid #e2e8f0;
+          background-color: #0f172a;
           position: fixed;
           top: 0;
-          z-index: 100;
+          left: 0;
+          z-index: 200;
           display: flex;
           flex-direction: column;
-          padding: 2rem 0;
+          transition: transform 0.3s ease;
+          overflow: hidden;
         }
-        .sidebar-menu {
-          display: flex;
-          flex-direction: column;
-          gap: 0.5rem;
-          padding: 0 1rem;
-          margin-top: 2rem;
-          flex: 1;
+
+        /* Desktop: always visible */
+        @media (min-width: 1025px) {
+          .dashboard-sidebar {
+            transform: translateX(0) !important;
+          }
         }
-        .sidebar-menu a {
-          display: flex;
-          alignItems: center;
-          gap: 1rem;
-          padding: 0.875rem 1rem;
-          border-radius: 12px;
-          color: #64748b;
-          text-decoration: none;
-          font-weight: 600;
-          transition: all 0.2s;
+
+        /* Mobile: slide in/out with transform */
+        @media (max-width: 1024px) {
+          .dashboard-sidebar {
+            transform: translateX(-100%);
+            box-shadow: 4px 0 30px rgba(0,0,0,0.3);
+          }
+          .dashboard-sidebar.open {
+            transform: translateX(0);
+          }
         }
-        .sidebar-menu a:hover, .sidebar-menu a.active {
-          background-color: #eef2ff;
-          color: var(--primary);
-        }
-        .sidebar-menu a svg {
-          font-size: 1.25rem;
-        }
+
         .dashboard-content {
           flex: 1;
           display: flex;
@@ -303,7 +319,7 @@ const SeekerLayout = () => {
         }
         .dashboard-header {
           height: 70px;
-          background-color: rgba(255, 255, 255, 0.8);
+          background-color: rgba(255, 255, 255, 0.9);
           backdrop-filter: blur(12px);
           border-bottom: 1px solid #e2e8f0;
           display: flex;
@@ -318,7 +334,7 @@ const SeekerLayout = () => {
         .avatar {
           width: 40px;
           height: 40px;
-          background-color: var(--primary);
+          background-color: #4f46e5;
           color: white;
           border-radius: 12px;
           display: flex;
@@ -328,6 +344,7 @@ const SeekerLayout = () => {
           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
       `}</style>
+
     </div>
   );
 };
