@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenAI } from "@google/genai";
 import fetch from "node-fetch";
 
 // ─── Response Cache (prevents duplicate API calls) ────────────────────────────
@@ -16,20 +16,20 @@ const getCached = (key) => {
 };
 const setCache = (key, value) => responseCache.set(key, { value, timestamp: Date.now() });
 
-// ─── PRIMARY: Google Gemini Direct API ────────────────────────────────────────
+// ─── PRIMARY: Google Gemini Direct API (@google/genai new SDK) ────────────────
 const callGeminiDirect = async (prompt, systemPrompt) => {
   if (!process.env.GEMINI_API_KEY) throw new Error("NO_GEMINI_KEY");
 
-  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  
-  // Use 'gemini-pro' which is the most stable and widely supported model name
-  const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
   const fullPrompt = systemPrompt ? `${systemPrompt}\n\nUser Question: ${prompt}` : prompt;
 
-  const result = await model.generateContent(fullPrompt);
-  const response = await result.response;
-  return response.text();
+  const response = await ai.models.generateContent({
+    model: "gemini-2.0-flash",
+    contents: fullPrompt,
+  });
+
+  return response.text;
 };
 
 // ─── BACKUP: OpenRouter API ───────────────────────────────────────────────────
