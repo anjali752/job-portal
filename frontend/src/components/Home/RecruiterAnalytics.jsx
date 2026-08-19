@@ -51,14 +51,14 @@ const RecruiterAnalytics = () => {
   ];
 
   return (
-    <div className="analytics-container" style={{ padding: "1rem" }}>
-      <div style={{ marginBottom: "2.5rem" }}>
-        <h1 style={{ fontSize: "2rem", fontWeight: 800, color: "#0f172a", margin: 0 }}>Recruitment Analytics</h1>
-        <p style={{ color: "#64748b", margin: "0.5rem 0 0 0", fontWeight: 600 }}>Real-time performance metrics for your hiring pipeline.</p>
+    <div className="analytics-container ra-container">
+      <div className="ra-header">
+        <h1 className="ra-title">Recruitment Analytics</h1>
+        <p className="ra-subtitle">Real-time performance metrics for your hiring pipeline.</p>
       </div>
 
       {/* KPI Grid */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1.5rem", marginBottom: "3rem" }}>
+      <div className="ra-stats-grid">
         <StatCard 
           icon={<FiBriefcase />} 
           label="Active Content" 
@@ -89,9 +89,9 @@ const RecruiterAnalytics = () => {
         />
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 400px", gap: "2rem" }}>
+      <div className="ra-main-grid">
         {/* Hiring Funnel Visualization */}
-        <div className="glass-card" style={{ padding: "2.5rem" }}>
+        <div className="glass-card ra-funnel-card">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2.5rem" }}>
             <h3 style={{ margin: 0, fontSize: "1.25rem", fontWeight: 800 }}>Hiring Velocity Funnel</h3>
             <span style={{ fontSize: "0.85rem", color: "#64748b", fontWeight: 700 }}>LAST 30 DAYS</span>
@@ -119,9 +119,8 @@ const RecruiterAnalytics = () => {
         </div>
 
         {/* Quick Insights */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-
-          <div className="glass-card" style={{ padding: "1.5rem" }}>
+        <div className="ra-insights-sidebar">
+          <div className="glass-card ra-insight-card">
             <h4 style={{ margin: "0 0 1rem 0", fontSize: "1.1rem", fontWeight: 800 }}>Efficiency Ratio</h4>
             <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
               <div style={{ fontSize: "2.5rem", fontWeight: 900, color: "#0f172a" }}>
@@ -132,9 +131,35 @@ const RecruiterAnalytics = () => {
               </div>
             </div>
           </div>
-
         </div>
       </div>
+
+      <style>{`
+        .ra-container { padding: 2rem; }
+        .ra-header { margin-bottom: 2.5rem; }
+        .ra-title { font-size: 2rem; font-weight: 800; color: #0f172a; margin: 0; }
+        .ra-subtitle { color: #64748b; margin: 0.5rem 0 0 0; font-weight: 600; }
+        .ra-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+        .ra-main-grid { display: grid; grid-template-columns: 1fr 400px; gap: 2rem; }
+        .ra-funnel-card { padding: 2.5rem; }
+        .ra-insight-card { padding: 1.5rem; }
+        .ra-insights-sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+
+        @media (max-width: 1024px) {
+          .ra-main-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+          .ra-container { padding: 1rem; }
+          .ra-title { font-size: 1.5rem; }
+          .ra-stats-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+          .ra-funnel-card { padding: 1.25rem; }
+        }
+
+        @media (max-width: 480px) {
+          .ra-stats-grid { grid-template-columns: 1fr; }
+        }
+      `}</style>
     </div>
   );
 };

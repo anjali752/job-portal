@@ -98,6 +98,8 @@ import RecruiterLayout from "./components/Layout/RecruiterLayout";
 
 import SeekerDashboard from "./components/Home/SeekerDashboard";
 import RecruiterDashboard from "./components/Home/RecruiterDashboard";
+import AdminLogin from "./components/Admin/AdminLogin";
+import AdminDashboard from "./components/Admin/AdminDashboard";
 
 import TalentSearch from "./components/Home/TalentSearch";
 import Profile from "./components/Home/Profile";
@@ -113,7 +115,7 @@ const AppLayout = () => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/user/getuser`,
+          `${import.meta.env.VITE_API_URL || 'http://localhost:4000/api/v1'}/user/getuser`,
           {
             withCredentials: true,
           }
@@ -128,7 +130,7 @@ const AppLayout = () => {
   }, []);
 
   // Determine if we are on a dashboard route
-  const isDashboardRoute = location.pathname.startsWith('/seeker') || location.pathname.startsWith('/recruiter');
+  const isDashboardRoute = location.pathname.startsWith('/seeker') || location.pathname.startsWith('/recruiter') || location.pathname.startsWith('/admin/dashboard');
 
   return (
     <>
@@ -176,6 +178,12 @@ const AppLayout = () => {
             <Route path="profile" element={<Profile />} />
           </Route>
 
+          {/* ADMIN PORTAL */}
+          <Route path="/admin" element={<AdminLogin />} />
+          <Route path="/admin/dashboard" element={
+            isAuthorized && user?.role === "Admin" ? <AdminDashboard /> : <Navigate to="/admin" />
+          } />
+
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
@@ -183,8 +191,8 @@ const AppLayout = () => {
       {/* FOOTER HIDE logic for certain pages */}
       {(!isDashboardRoute && !["/resume", "/chat","/application","/job/getall","/applications/me"].includes(location.pathname)) && <Footer />}
 
-      {/* Show Chatbot only when user is logged in */}
-      {isAuthorized && <Chatbot />}
+      {/* Show Chatbot only for Seekers and Recruiters, not Admin */}
+      {isAuthorized && user?.role !== "Admin" && <Chatbot />}
       <Toaster />
     </>
   );

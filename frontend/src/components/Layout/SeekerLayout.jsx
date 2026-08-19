@@ -92,55 +92,34 @@ const SeekerLayout = () => {
         />
       )}
 
-      {/* Sidebar - All critical styles are INLINE to prevent any CSS conflicts */}
+      {/* Sidebar */}
       <aside
+        className={`sk-sidebar ${sidebarOpen ? 'sk-open' : ''}`}
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
-          width: '280px',
           height: '100%',
           backgroundColor: '#0f172a',
           display: 'flex',
           flexDirection: 'column',
           zIndex: 300,
-          transform: isMobile && !sidebarOpen ? 'translateX(-280px)' : 'translateX(0)',
-          transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          boxShadow: sidebarOpen && isMobile ? '8px 0 32px rgba(0,0,0,0.4)' : 'none',
           overflow: 'hidden',
         }}
       >
-        {/* ── TOP: Logo Header ── */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '0.85rem',
-          padding: '1.75rem 1.5rem 1.5rem',
-          flexShrink: 0,
-        }}>
-          {/* RX Icon - matches Image 1 size */}
-          <div style={{
-            width: '54px', height: '54px', flexShrink: 0,
-            background: 'linear-gradient(135deg, #4f46e5 0%, #4338ca 100%)',
-            borderRadius: '14px',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: 'white', fontWeight: 900, fontSize: '1.4rem',
-            letterSpacing: '-1px',
-            boxShadow: '0 8px 16px -4px rgba(79,70,229,0.5)',
-          }}>RX</div>
-          {/* Brand Name */}
+        {/* Logo */}
+        <div className="sk-logo-area">
+          <div className="sk-logo-icon">RX</div>
           <div>
-            <div style={{ fontSize: '1.8rem', fontWeight: 950, color: 'white', letterSpacing: '-1.5px', lineHeight: 1 }}>
-              Recruite<span style={{ color: 'var(--primary, #4f46e5)' }}>X</span>
+            <div className="sk-brand-name">
+              Recruite<span style={{ color: '#818cf8' }}>X</span>
             </div>
-            <div style={{ fontSize: '0.65rem', fontWeight: 800, color: '#64748b', letterSpacing: '1.5px', textTransform: 'uppercase', marginTop: '2px' }}>
-              Dream Finder
-            </div>
+            <div className="sk-brand-sub">Dream Finder</div>
           </div>
         </div>
 
-        {/* ── MIDDLE: Navigation ── */}
-        <nav style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', padding: '0.5rem 0', marginTop: '0.5rem' }}>
+        {/* Navigation */}
+        <nav className="sk-nav">
           {visibleLinks.map((link) => {
             const isActive = location.pathname === link.path;
             return (
@@ -148,44 +127,29 @@ const SeekerLayout = () => {
                 key={link.name}
                 to={link.path}
                 onClick={() => isMobile && setSidebarOpen(false)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '1rem',
-                  margin: '0.2rem 1rem',
-                  padding: '0.9rem 1.25rem',
-                  borderRadius: '12px',
-                  textDecoration: 'none',
-                  fontWeight: 600,
-                  fontSize: '0.9rem',
-                  color: isActive ? '#fff' : '#94a3b8',
-                  backgroundColor: isActive ? 'rgba(79,70,229,0.15)' : 'transparent',
-                  borderLeft: isActive ? '3px solid var(--primary, #4f46e5)' : '3px solid transparent',
-                  transition: 'all 0.2s',
-                }}
+                className={`sk-nav-link ${isActive ? 'sk-active' : ''}`}
               >
-                <span style={{ fontSize: '1.3rem', color: isActive ? 'var(--primary, #4f46e5)' : '#64748b', flexShrink: 0 }}>{link.icon}</span>
+                <span className="sk-nav-icon">{link.icon}</span>
                 <span>{link.name}</span>
               </Link>
             );
           })}
         </nav>
 
-        {/* ── BOTTOM: Logout only (matches Image 1) ── */}
-        <div style={{ flexShrink: 0, padding: '0.5rem 1rem 1.5rem' }}>
-          <a
-            href="#"
-            onClick={(e) => { e.preventDefault(); handleLogout(); }}
-            style={{
-              display: 'flex', alignItems: 'center', gap: '1rem',
-              padding: '0.9rem 1.25rem', borderRadius: '12px',
-              color: '#f87171', textDecoration: 'none',
-              fontWeight: 700, fontSize: '0.9rem',
-              transition: '0.2s',
-            }}
-          >
-            <FiLogOut style={{ fontSize: '1.3rem', flexShrink: 0 }} />
-            <span>Logout Account</span>
+        {/* Bottom: User + Logout */}
+        <div className="sk-bottom">
+          <div className="sk-user-card">
+            <div className="sk-user-avatar">
+              {user?.name ? user.name.charAt(0).toUpperCase() : 'S'}
+            </div>
+            <div style={{ overflow: 'hidden', flex: 1 }}>
+              <p className="sk-user-name">{user?.name || 'Job Seeker'}</p>
+              <p className="sk-user-role">Job Seeker</p>
+            </div>
+          </div>
+          <a href="#" onClick={(e) => { e.preventDefault(); handleLogout(); }} className="sk-logout">
+            <FiLogOut className="sk-logout-icon" />
+            <span>Logout</span>
           </a>
         </div>
       </aside>
@@ -279,36 +243,167 @@ const SeekerLayout = () => {
           display: flex;
         }
 
-        /* ── Sidebar Base ── */
-        .dashboard-sidebar {
+        /* ═══════════════════════════════════════════
+           SIDEBAR — DESKTOP (default)
+           ═══════════════════════════════════════════ */
+        .sk-sidebar {
           width: 280px;
-          height: 100vh;
-          background-color: #0f172a;
-          position: fixed;
-          top: 0;
-          left: 0;
-          z-index: 200;
+          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .sk-logo-area {
           display: flex;
-          flex-direction: column;
-          transition: transform 0.3s ease;
-          overflow: hidden;
+          align-items: center;
+          gap: 0.85rem;
+          padding: 1.75rem 1.5rem 1.5rem;
+          flex-shrink: 0;
         }
-
-        /* Desktop: always visible */
-        @media (min-width: 1025px) {
-          .dashboard-sidebar {
-            transform: translateX(0) !important;
-          }
+        .sk-logo-icon {
+          width: 54px; height: 54px;
+          flex-shrink: 0;
+          background: linear-gradient(135deg, #4f46e5, #4338ca);
+          border-radius: 14px;
+          display: flex; align-items: center; justify-content: center;
+          color: white; font-weight: 900; font-size: 1.4rem;
+          letter-spacing: -1px;
+          box-shadow: 0 8px 16px -4px rgba(79,70,229,0.5);
         }
+        .sk-brand-name {
+          font-size: 1.8rem; font-weight: 950; color: white;
+          letter-spacing: -1.5px; line-height: 1;
+        }
+        .sk-brand-sub {
+          font-size: 0.65rem; font-weight: 800; color: #64748b;
+          letter-spacing: 1.5px; text-transform: uppercase; margin-top: 2px;
+        }
+        .sk-nav {
+          flex: 1; overflow-y: auto; overflow-x: hidden;
+          padding: 0.5rem 0; margin-top: 0.5rem;
+        }
+        .sk-nav-link {
+          display: flex; align-items: center;
+          gap: 1rem;
+          margin: 0.2rem 1rem;
+          padding: 0.9rem 1.25rem;
+          border-radius: 12px;
+          text-decoration: none;
+          font-weight: 600; font-size: 0.9rem;
+          color: #94a3b8;
+          background-color: transparent;
+          border-left: 3px solid transparent;
+          transition: all 0.15s;
+        }
+        .sk-nav-link.sk-active {
+          color: #fff;
+          background-color: rgba(79,70,229,0.18);
+          border-left-color: #818cf8;
+        }
+        .sk-nav-icon {
+          font-size: 1.3rem; color: #4b5563; flex-shrink: 0;
+        }
+        .sk-active .sk-nav-icon { color: #818cf8; }
+        .sk-bottom {
+          flex-shrink: 0;
+          padding: 0.5rem 1rem 1.5rem;
+          border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .sk-user-card {
+          display: flex; align-items: center; gap: 0.65rem;
+          padding: 0.7rem; border-radius: 10px;
+          background: rgba(79,70,229,0.08);
+          margin-bottom: 0.4rem;
+        }
+        .sk-user-avatar {
+          width: 36px; height: 36px; flex-shrink: 0;
+          background: #4f46e5; border-radius: 9px;
+          display: flex; align-items: center; justify-content: center;
+          color: white; font-weight: 800; font-size: 0.9rem;
+        }
+        .sk-user-name {
+          color: #e2e8f0; font-weight: 700; font-size: 0.85rem;
+          margin: 0; white-space: nowrap;
+          overflow: hidden; text-overflow: ellipsis;
+        }
+        .sk-user-role {
+          color: #4b5563; font-size: 0.68rem; margin: 0;
+        }
+        .sk-logout {
+          display: flex; align-items: center; gap: 1rem;
+          padding: 0.9rem 1.25rem; border-radius: 10px;
+          color: #f87171; text-decoration: none;
+          font-weight: 700; font-size: 0.9rem;
+          transition: 0.2s;
+        }
+        .sk-logout-icon { font-size: 1.3rem; flex-shrink: 0; }
 
-        /* Mobile: slide in/out with transform */
+        /* ═══════════════════════════════════════════
+           SIDEBAR — MOBILE (≤1024px)
+           ═══════════════════════════════════════════ */
         @media (max-width: 1024px) {
-          .dashboard-sidebar {
-            transform: translateX(-100%);
-            box-shadow: 4px 0 30px rgba(0,0,0,0.3);
+          .sk-sidebar {
+            width: 260px;
+            transform: translateX(-280px);
+            box-shadow: none;
           }
-          .dashboard-sidebar.open {
+          .sk-sidebar.sk-open {
             transform: translateX(0);
+            box-shadow: 8px 0 32px rgba(0,0,0,0.4);
+          }
+          .sk-logo-area {
+            gap: 0.6rem;
+            padding: 0.85rem 0.85rem 0.75rem;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+          }
+          .sk-logo-icon {
+            width: 36px; height: 36px;
+            border-radius: 9px;
+            font-size: 0.85rem;
+            box-shadow: 0 3px 8px -2px rgba(79,70,229,0.4);
+          }
+          .sk-brand-name {
+            font-size: 1.1rem;
+            letter-spacing: -0.5px;
+          }
+          .sk-brand-sub {
+            font-size: 0.48rem;
+          }
+          .sk-nav {
+            padding: 0.25rem 0;
+            margin-top: 0.1rem;
+          }
+          .sk-nav-link {
+            gap: 0.65rem;
+            margin: 1px 0.5rem;
+            padding: 0.55rem 0.75rem;
+            border-radius: 9px;
+            font-size: 0.82rem;
+          }
+          .sk-nav-icon {
+            font-size: 1rem;
+          }
+          .sk-bottom {
+            padding: 0.5rem 0.5rem 0.7rem;
+          }
+          .sk-user-card {
+            padding: 0.5rem;
+          }
+          .sk-user-avatar {
+            width: 30px; height: 30px;
+            font-size: 0.75rem;
+          }
+          .sk-user-name { font-size: 0.75rem; }
+          .sk-user-role { font-size: 0.55rem; }
+          .sk-logout {
+            gap: 0.6rem;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.8rem;
+          }
+          .sk-logout-icon { font-size: 0.95rem; }
+        }
+
+        /* Desktop: ensure sidebar always visible */
+        @media (min-width: 1025px) {
+          .sk-sidebar {
+            transform: translateX(0) !important;
           }
         }
 

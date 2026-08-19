@@ -100,6 +100,91 @@
   }
 }
 
+/* ---- GLOBAL COMPONENT OVERRIDES FOR MOBILE ---- */
+@media (max-width: 768px) {
+  /* Generic Sections & Paddings */
+  section, .page-container, .dashboard-content {
+    padding: 1.25rem 1rem !important;
+  }
+
+  /* Titles */
+  h1 { font-size: 1.75rem !important; }
+  h2 { font-size: 1.5rem !important; }
+  h3 { font-size: 1.25rem !important; }
+
+  /* Glass Cards */
+  .glass-card {
+    padding: 1.25rem !important;
+    border-radius: 16px !important;
+  }
+
+  /* Grid Layouts */
+  .grid-2, .grid-3, .grid-4 {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  /* Buttons */
+  button, .primary-btn, .secondary-btn {
+    width: 100% !important;
+    justify-content: center !important;
+    padding: 0.85rem !important;
+    font-size: 0.95rem !important;
+  }
+
+  /* Forms */
+  form {
+    gap: 1rem !important;
+  }
+
+  input, textarea, select {
+    padding: 0.85rem !important;
+    font-size: 16px !important; /* Prevents iOS zoom on focus */
+  }
+
+  /* Tables - Force Scroll */
+  .table-container, table {
+    display: block !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  /* Profile Specific */
+  .pf-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1rem !important;
+  }
+
+  .pf-title {
+    font-size: 1.5rem !important;
+  }
+
+  /* Messages Specific */
+  .messages-container {
+    height: calc(100vh - 70px) !important;
+    border-radius: 0 !important;
+  }
+
+  /* Job Cards */
+  .job-card-premium {
+    padding: 1.25rem !important;
+    gap: 1rem !important;
+  }
+}
+
+/* ---- UTILITIES ---- */
+.mobile-only { display: none; }
+@media (max-width: 768px) {
+  .mobile-only { display: block; }
+  .desktop-only { display: none; }
+  .text-center-mobile { text-align: center !important; }
+  .full-width-mobile { width: 100% !important; }
+  .no-margin-mobile { margin: 0 !important; }
+  .no-padding-mobile { padding: 0 !important; }
+}
+
 /* ---- CATEGORIES ---- */
 @media (max-width: 640px) {
   .categories-header {

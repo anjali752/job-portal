@@ -93,9 +93,9 @@ const Messages = () => {
   };
 
   return (
-    <div style={{ display: "flex", height: "calc(100vh - 100px)", backgroundColor: "white", borderRadius: "24px", overflow: "hidden", boxShadow: "0 10px 25px rgba(0,0,0,0.05)" }}>
+    <div className={`messages-container ${activeChat ? "chat-active" : ""}`}>
       {/* Sidebar - Chat List */}
-      <div style={{ width: "350px", borderRight: "1px solid #f1f5f9", display: "flex", flexDirection: "column" }}>
+      <div className="chats-sidebar">
         <div style={{ padding: "1.5rem", borderBottom: "1px solid #f1f5f9" }}>
           <h2 style={{ fontSize: "1.25rem", fontWeight: 800, color: "#0f172a", marginBottom: "1rem" }}>Messages</h2>
           <div style={{ display: "flex", alignItems: "center", backgroundColor: "#f8fafc", padding: "0.5rem 1rem", borderRadius: "12px" }}>
@@ -142,12 +142,18 @@ const Messages = () => {
       </div>
 
       {/* Main Chat Area */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", backgroundColor: "#f8fafc" }}>
+      <div className="chat-main-area">
         {activeChat ? (
           <>
             {/* Chat Header */}
-            <div style={{ padding: "1rem 2rem", backgroundColor: "white", borderBottom: "1px solid #f1f5f9", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div className="chat-header">
               <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+                <button 
+                  className="mobile-back-btn" 
+                  onClick={() => setActiveChat(null)}
+                >
+                  ←
+                </button>
                 <div style={{ width: "40px", height: "40px", borderRadius: "12px", backgroundColor: "#eff6ff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, color: "var(--primary)" }}>
                   {activeChat.avatar?.url ? <img src={activeChat.avatar.url} style={{ width: "100%", height: "100%", borderRadius: "12px", objectFit: "cover" }} /> : activeChat.name.charAt(0)}
                 </div>
@@ -160,13 +166,13 @@ const Messages = () => {
             </div>
 
             {/* Messages Area */}
-            <div style={{ flex: 1, padding: "2rem", overflowY: "auto", display: "flex", flexDirection: "column", gap: "1rem" }}>
+            <div className="messages-area">
               {messages.map((msg, i) => {
                 const isMe = msg.sender === user._id;
                 return (
                   <div key={i} style={{ 
                     alignSelf: isMe ? "flex-end" : "flex-start",
-                    maxWidth: "70%",
+                    maxWidth: "85%",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: isMe ? "flex-end" : "flex-start"
@@ -193,7 +199,7 @@ const Messages = () => {
             </div>
 
             {/* Input Area */}
-            <form onSubmit={handleSendMessage} style={{ padding: "1.5rem 2rem", backgroundColor: "white", borderTop: "1px solid #f1f5f9", display: "flex", gap: "1rem", alignItems: "center" }}>
+            <form onSubmit={handleSendMessage} className="chat-input-area">
               <div style={{ flex: 1, backgroundColor: "#f1f5f9", borderRadius: "16px", padding: "0.5rem 1rem", display: "flex", alignItems: "center" }}>
                 <FiPaperclip color="#94a3b8" style={{ marginRight: "0.75rem", cursor: "pointer" }} />
                 <input 
@@ -213,7 +219,7 @@ const Messages = () => {
             </form>
           </>
         ) : (
-          <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", color: "#94a3b8" }}>
+          <div className="chat-placeholder">
              <div style={{ width: "80px", height: "80px", borderRadius: "30px", backgroundColor: "white", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "1.5rem", boxShadow: "0 10px 20px rgba(0,0,0,0.05)" }}>
                 <FiSend size={32} color="var(--primary)" />
              </div>
@@ -222,6 +228,135 @@ const Messages = () => {
           </div>
         )}
       </div>
+
+      <style>{`
+        .messages-container {
+          display: flex;
+          height: calc(100vh - 100px);
+          background-color: white;
+          border-radius: 24px;
+          overflow: hidden;
+          box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+
+        .chats-sidebar {
+          width: 350px;
+          border-right: 1px solid #f1f5f9;
+          display: flex;
+          flex-direction: column;
+          background-color: white;
+        }
+
+        .chat-main-area {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          background-color: #f8fafc;
+        }
+
+        .chat-header {
+          padding: 1rem 2rem;
+          background-color: white;
+          border-bottom: 1px solid #f1f5f9;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .messages-area {
+          flex: 1;
+          padding: 2rem;
+          overflow-y: auto;
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .chat-input-area {
+          padding: 1.5rem 2rem;
+          background-color: white;
+          border-top: 1px solid #f1f5f9;
+          display: flex;
+          gap: 1rem;
+          align-items: center;
+        }
+
+        .chat-placeholder {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          color: #94a3b8;
+          text-align: center;
+          padding: 2rem;
+        }
+
+        .mobile-back-btn {
+          display: none;
+          background: none;
+          border: none;
+          font-size: 1.5rem;
+          cursor: pointer;
+          color: #0f172a;
+          padding: 0.5rem;
+          margin-left: -0.5rem;
+        }
+
+        @media (max-width: 991px) {
+          .chats-sidebar {
+            width: 300px;
+          }
+        }
+
+        @media (max-width: 767px) {
+          .messages-container {
+            height: calc(100vh - 80px);
+            border-radius: 0;
+            position: relative;
+          }
+
+          .chats-sidebar {
+            width: 100%;
+            border-right: none;
+          }
+
+          .chat-main-area {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+          }
+
+          .messages-container.chat-active .chat-main-area {
+            transform: translateX(0);
+          }
+
+          .chat-header {
+            padding: 0.75rem 1rem;
+          }
+
+          .mobile-back-btn {
+            display: block;
+          }
+
+          .messages-area {
+            padding: 1rem;
+          }
+
+          .chat-input-area {
+            padding: 1rem;
+          }
+
+          .chat-placeholder {
+            display: none;
+          }
+        }
+      `}</style>
     </div>
   );
 };

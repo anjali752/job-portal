@@ -167,10 +167,10 @@ const Profile = () => {
   };
 
   return (
-    <div className="profile-page" style={{ padding: "2rem", maxWidth: "1200px", margin: "0 auto" }}>
-      <div style={{ marginBottom: "3rem", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+    <div className="profile-page pf-page">
+      <div className="pf-header">
         <div>
-          <h1 style={{ fontSize: "2.2rem", fontWeight: 900, color: "#0f172a", margin: 0, letterSpacing: "-1px" }}>Profile Settings</h1>
+          <h1 className="pf-title">Profile Settings</h1>
           <p style={{ color: "#64748b", fontSize: "1rem", marginTop: "0.5rem" }}>
             {user?.role === "Employer" ? "Authenticate your company and manage recruiter details." : "Showcase your professional identity to employers."}
           </p>
@@ -178,26 +178,13 @@ const Profile = () => {
         {!isEditing && (
           <button 
             onClick={() => setIsEditing(true)}
-            style={{ 
-              display: "flex", 
-              alignItems: "center", 
-              gap: "0.6rem", 
-              padding: "0.8rem 2rem", 
-              backgroundColor: "var(--primary)", 
-              color: "white", 
-              border: "none", 
-              borderRadius: "12px", 
-              fontWeight: 800, 
-              cursor: "pointer",
-              boxShadow: "0 10px 15px -3px rgba(79, 70, 229, 0.3)",
-              transition: "0.2s"
-            }}>
+            className="pf-edit-btn">
             <FiEdit2 /> Edit details
           </button>
         )}
       </div>
 
-      <form onSubmit={handleSubmit} style={{ display: "grid", gridTemplateColumns: isEditing ? "1fr" : "320px 1fr", gap: "3rem" }}>
+      <form onSubmit={handleSubmit} className={`pf-form ${isEditing ? 'pf-editing' : ''}`}>
         {/* Left Column - Avatar and Badges */}
         {!isEditing && (
           <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
@@ -258,9 +245,9 @@ const Profile = () => {
         )}
 
         {/* Right Column - Fields */}
-        <div className="glass-card" style={{ padding: isEditing ? "3rem" : "2.5rem" }}>
+        <div className="glass-card pf-fields-card">
            {isEditing && (
-              <div style={{ display: "flex", alignItems: "center", gap: "2rem", marginBottom: "3rem", paddingBottom: "2rem", borderBottom: "1px solid #f1f5f9" }}>
+              <div className="pf-avatar-edit">
                 <div style={{ position: "relative" }}>
                    <div style={{ width: "120px", height: "120px", borderRadius: "20px", overflow: "hidden", border: "3px solid white", boxShadow: "0 10px 15px rgba(0,0,0,0.05)" }}>
                       <img src={avatarPreview || "/default.png"} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
@@ -277,7 +264,7 @@ const Profile = () => {
               </div>
            )}
 
-           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
+           <div className="pf-grid-2">
               <ProfileField label="Full Name" icon={<FiUser />} name="name" value={formData.name} onChange={handleChange} isEditing={isEditing} />
               <ProfileField label="Email Address" icon={<FiMail />} name="email" value={formData.email} isEditing={false} disabled />
               <ProfileField label="Phone Number" icon={<FiPhone />} name="phone" value={formData.phone} onChange={handleChange} isEditing={isEditing} />
@@ -288,7 +275,7 @@ const Profile = () => {
              <>
                <div style={{ marginTop: "2.5rem", paddingTop: "2.5rem", borderTop: "1px solid #f1f5f9" }}>
                   <h3 style={{ fontSize: "1.1rem", fontWeight: 800, color: "#0f172a", marginBottom: "1.5rem" }}>Professional Presence</h3>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
+                  <div className="pf-grid-2">
                      <ProfileField label="Portfolio URL" icon={<FiGlobe />} name="portfolioUrl" value={formData.portfolioUrl} onChange={handleChange} isEditing={isEditing} placeholder="https://yourportfolio.com" />
                      <ProfileField label="GitHub Profile" icon={<FiGlobe />} name="githubProfile" value={formData.githubProfile} onChange={handleChange} isEditing={isEditing} placeholder="https://github.com/username" />
                      <ProfileField label="LinkedIn Profile" icon={<FiLinkedin />} name="linkedInProfile" value={formData.linkedInProfile} onChange={handleChange} isEditing={isEditing} placeholder="linkedin.com/in/username" />
@@ -354,7 +341,7 @@ const Profile = () => {
                     {formData.experience.map((exp, idx) => (
                       <div key={idx} className="glass-card" style={{ padding: "1.5rem", backgroundColor: "#f8fafc", position: "relative" }}>
                         {isEditing && <FiX style={{ position: "absolute", top: "1rem", right: "1rem", cursor: "pointer", color: "#ef4444" }} onClick={() => removeArrayItem("experience", idx)} />}
-                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "1rem" }}>
+                        <div className="pf-grid-3">
                           <ProfileField label="Company" icon={<FiBriefcase />} value={exp.company} onChange={(e) => handleArrayChange(idx, "company", e.target.value, "experience")} isEditing={isEditing} />
                           <ProfileField label="Role" icon={<FiBriefcase />} value={exp.role} onChange={(e) => handleArrayChange(idx, "role", e.target.value, "experience")} isEditing={isEditing} />
                           <ProfileField label="Duration" icon={<FiBriefcase />} value={exp.duration} onChange={(e) => handleArrayChange(idx, "duration", e.target.value, "experience")} isEditing={isEditing} placeholder="e.g. 2021 - Present" />
@@ -373,7 +360,7 @@ const Profile = () => {
                     {formData.education.map((edu, idx) => (
                       <div key={idx} className="glass-card" style={{ padding: "1.5rem", backgroundColor: "#f8fafc", position: "relative" }}>
                         {isEditing && <FiX style={{ position: "absolute", top: "1rem", right: "1rem", cursor: "pointer", color: "#ef4444" }} onClick={() => removeArrayItem("education", idx)} />}
-                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "1rem" }}>
+                        <div className="pf-grid-3">
                           <ProfileField label="Institution" icon={<FiGlobe />} value={edu.institution} onChange={(e) => handleArrayChange(idx, "institution", e.target.value, "education")} isEditing={isEditing} />
                           <ProfileField label="Degree" icon={<FiBriefcase />} value={edu.degree} onChange={(e) => handleArrayChange(idx, "degree", e.target.value, "education")} isEditing={isEditing} />
                           <ProfileField label="Passing Year" icon={<FiBriefcase />} value={edu.year} onChange={(e) => handleArrayChange(idx, "year", e.target.value, "education")} isEditing={isEditing} />
@@ -389,7 +376,7 @@ const Profile = () => {
              <>
                <div style={{ marginTop: "2.5rem", paddingTop: "2.5rem", borderTop: "1px solid #f1f5f9" }}>
                   <h3 style={{ fontSize: "1.1rem", fontWeight: 800, color: "#0f172a", marginBottom: "1.5rem" }}>Company Identity</h3>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
+                  <div className="pf-grid-2">
                      <ProfileField label="Company Legal Name" icon={<FiBriefcase />} name="companyLegalName" value={formData.companyLegalName} onChange={handleChange} isEditing={isEditing} placeholder="e.g. TechFlow Solutions Pvt Ltd" />
                      <ProfileField label="Official Company Email" icon={<FiMail />} name="officialCompanyEmail" value={formData.officialCompanyEmail} onChange={handleChange} isEditing={isEditing} placeholder="hr@company.com" />
                      <ProfileField label="Company Website" icon={<FiGlobe />} name="companyWebsite" value={formData.companyWebsite} onChange={handleChange} isEditing={isEditing} placeholder="https://company.com" />
@@ -401,7 +388,7 @@ const Profile = () => {
 
                <div style={{ marginTop: "2.5rem", paddingTop: "2.5rem", borderTop: "1px solid #f1f5f9" }}>
                   <h3 style={{ fontSize: "1.1rem", fontWeight: 800, color: "#0f172a", marginBottom: "1.5rem" }}>Registration Details</h3>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
+                  <div className="pf-grid-2">
                      <ProfileField label="Registration Number (CIN)" icon={<FiShield />} name="companyRegistrationNumber_CIN" value={formData.companyRegistrationNumber_CIN} onChange={handleChange} isEditing={isEditing} placeholder="U12345DL2023PTC123456" />
                      <ProfileField label="GST Number (Optional)" icon={<FiShield />} name="gstNumber" value={formData.gstNumber} onChange={handleChange} isEditing={isEditing} placeholder="29AAAAA0000A1Z5" />
                   </div>
@@ -409,7 +396,7 @@ const Profile = () => {
 
                <div style={{ marginTop: "2.5rem", paddingTop: "2.5rem", borderTop: "1px solid #f1f5f9" }}>
                   <h3 style={{ fontSize: "1.1rem", fontWeight: 800, color: "#0f172a", marginBottom: "1.5rem" }}>Office Address</h3>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
+                  <div className="pf-grid-2">
                      <ProfileField label="Street / Area" icon={<FiMapPin />} name="street" value={formData.officeAddress.street} onChange={handleOfficeAddressChange} isEditing={isEditing} />
                      <ProfileField label="City" icon={<FiMapPin />} name="city" value={formData.officeAddress.city} onChange={handleOfficeAddressChange} isEditing={isEditing} />
                      <ProfileField label="State" icon={<FiMapPin />} name="state" value={formData.officeAddress.state} onChange={handleOfficeAddressChange} isEditing={isEditing} />
@@ -419,7 +406,7 @@ const Profile = () => {
 
                <div style={{ marginTop: "2.5rem", paddingTop: "2.5rem", borderTop: "1px solid #f1f5f9" }}>
                   <h3 style={{ fontSize: "1.1rem", fontWeight: 800, color: "#0f172a", marginBottom: "1.5rem" }}>Recruiter Details</h3>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
+                  <div className="pf-grid-2">
                      <ProfileField label="Recruiter Full Name" icon={<FiUser />} name="recruiterFullName" value={formData.recruiterFullName} onChange={handleChange} isEditing={isEditing} />
                      <ProfileField label="Work Email" icon={<FiMail />} name="recruiterWorkEmail" value={formData.recruiterWorkEmail} onChange={handleChange} isEditing={isEditing} placeholder="name@company.com" />
                      <ProfileField label="Work Phone" icon={<FiPhone />} name="recruiterPhoneNumber" value={formData.recruiterPhoneNumber} onChange={handleChange} isEditing={isEditing} />
@@ -429,7 +416,7 @@ const Profile = () => {
 
                <div style={{ marginTop: "2.5rem", paddingTop: "2.5rem", borderTop: "1px solid #f1f5f9" }}>
                   <h3 style={{ fontSize: "1.1rem", fontWeight: 800, color: "#0f172a", marginBottom: "1.5rem" }}>Identity Verification Docs</h3>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem" }}>
+                  <div className="pf-grid-2">
                      <DocumentUpload label="Registration Certificate" field="companyRegistrationCertificate" file={documentFiles.companyRegistrationCertificate} existing={user?.documents?.companyRegistrationCertificate?.url} onChange={handleDocumentChange} isEditing={isEditing} />
                      <DocumentUpload label="GST Certificate (Opt)" field="gstCertificate" file={documentFiles.gstCertificate} existing={user?.documents?.gstCertificate?.url} onChange={handleDocumentChange} isEditing={isEditing} />
                      <DocumentUpload label="Office Address Proof" field="officeAddressProof" file={documentFiles.officeAddressProof} existing={user?.documents?.officeAddressProof?.url} onChange={handleDocumentChange} isEditing={isEditing} />
@@ -462,13 +449,44 @@ const Profile = () => {
            </div>
 
            {isEditing && (
-             <div style={{ display: "flex", gap: "1rem", justifyContent: "flex-end", marginTop: "3rem" }}>
-                <button type="button" onClick={() => setIsEditing(false)} style={{ padding: "0.9rem 2rem", borderRadius: "12px", border: "none", backgroundColor: "#f1f5f9", color: "#64748b", fontWeight: 700, cursor: "pointer" }}><FiX /> Cancel</button>
-                <button type="submit" style={{ padding: "0.9rem 3rem", borderRadius: "12px", border: "none", backgroundColor: "var(--primary)", color: "white", fontWeight: 800, cursor: "pointer", boxShadow: "0 10px 15px rgba(79, 70, 229, 0.3)" }}><FiSave /> Update Profile</button>
+             <div className="pf-action-buttons">
+                <button type="button" onClick={() => setIsEditing(false)} className="pf-cancel-btn"><FiX /> Cancel</button>
+                <button type="submit" className="pf-save-btn"><FiSave /> Update Profile</button>
              </div>
            )}
         </div>
       </form>
+
+      <style>{`
+        .pf-page { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+        .pf-header { margin-bottom: 3rem; display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; }
+        .pf-title { font-size: 2.2rem; font-weight: 900; color: #0f172a; margin: 0; letter-spacing: -1px; }
+        .pf-edit-btn { display: flex; align-items: center; gap: 0.6rem; padding: 0.8rem 2rem; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; box-shadow: 0 10px 15px -3px rgba(79,70,229,0.3); transition: 0.2s; white-space: nowrap; flex-shrink: 0; }
+        .pf-form { display: grid; grid-template-columns: 320px 1fr; gap: 3rem; }
+        .pf-form.pf-editing { grid-template-columns: 1fr; }
+        .pf-fields-card { padding: 2.5rem; }
+        .pf-form.pf-editing .pf-fields-card { padding: 2.5rem; }
+        .pf-avatar-edit { display: flex; align-items: center; gap: 2rem; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid #f1f5f9; }
+        .pf-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .pf-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+        .pf-action-buttons { display: flex; gap: 1rem; justify-content: flex-end; margin-top: 3rem; }
+        .pf-cancel-btn { padding: 0.9rem 2rem; border-radius: 12px; border: none; background: #f1f5f9; color: #64748b; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; }
+        .pf-save-btn { padding: 0.9rem 3rem; border-radius: 12px; border: none; background: var(--primary); color: white; font-weight: 800; cursor: pointer; box-shadow: 0 10px 15px rgba(79,70,229,0.3); display: flex; align-items: center; gap: 0.5rem; }
+
+        @media (max-width: 768px) {
+          .pf-page { padding: 1rem 0.75rem; }
+          .pf-header { flex-direction: column; align-items: flex-start; margin-bottom: 1.5rem; }
+          .pf-title { font-size: 1.5rem; }
+          .pf-edit-btn { padding: 0.65rem 1.25rem; font-size: 0.85rem; width: 100%; justify-content: center; }
+          .pf-form { grid-template-columns: 1fr !important; gap: 1.25rem; }
+          .pf-fields-card { padding: 1.25rem !important; }
+          .pf-avatar-edit { flex-direction: column; text-align: center; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; }
+          .pf-grid-2 { grid-template-columns: 1fr; gap: 1rem; }
+          .pf-grid-3 { grid-template-columns: 1fr; gap: 1rem; }
+          .pf-action-buttons { flex-direction: column; margin-top: 1.5rem; }
+          .pf-cancel-btn, .pf-save-btn { width: 100%; justify-content: center; padding: 0.85rem; }
+        }
+      `}</style>
     </div>
   );
 };

@@ -20,7 +20,7 @@ const Login = () => {
     setLoading(true);
     try {
       const { data } = await axios.post(
-        `${import.meta.env.VITE_API_URL}/user/login`,
+        `${import.meta.env.VITE_API_URL || 'http://localhost:4000/api/v1'}/user/login`,
         { email, password, role },
         {
           headers: { "Content-Type": "application/json" },
@@ -31,7 +31,7 @@ const Login = () => {
       setUser(data.user);
       setIsAuthorized(true);
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || error.message || "Login failed. Make sure backend server is running.");
     } finally {
       setLoading(false);
     }

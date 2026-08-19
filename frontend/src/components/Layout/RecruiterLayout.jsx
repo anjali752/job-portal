@@ -77,13 +77,13 @@ const RecruiterLayout = () => {
         />
       )}
 
-      {/* Sidebar - All critical styles are INLINE to prevent any CSS conflicts */}
+      {/* Sidebar - Adaptive layout: compact on mobile, spacious on desktop */}
       <aside
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
-          width: '280px',
+          width: isMobile ? '260px' : '280px',
           height: '100%',
           backgroundColor: '#0f172a',
           display: 'flex',
@@ -95,35 +95,53 @@ const RecruiterLayout = () => {
           overflow: 'hidden',
         }}
       >
-        {/* ── TOP: Logo Header ── */}
+        {/* ── TOP: Logo ── */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '0.85rem',
-          padding: '1.75rem 1.5rem 1.5rem',
+          gap: isMobile ? '0.65rem' : '0.85rem',
+          padding: isMobile ? '1rem 1rem 0.85rem' : '1.75rem 1.5rem 1.5rem',
           flexShrink: 0,
+          borderBottom: isMobile ? '1px solid rgba(255,255,255,0.06)' : 'none',
         }}>
           <div style={{
-            width: '54px', height: '54px', flexShrink: 0,
+            width: isMobile ? '38px' : '54px',
+            height: isMobile ? '38px' : '54px',
+            flexShrink: 0,
             background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-            borderRadius: '14px',
+            borderRadius: isMobile ? '10px' : '14px',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: 'white', fontWeight: 900, fontSize: '1.4rem',
+            color: 'white', fontWeight: 900,
+            fontSize: isMobile ? '0.9rem' : '1.4rem',
             letterSpacing: '-1px',
-            boxShadow: '0 8px 16px -4px rgba(16,185,129,0.5)',
+            boxShadow: '0 4px 12px -2px rgba(16,185,129,0.5)',
           }}>RX</div>
           <div>
-            <div style={{ fontSize: '1.8rem', fontWeight: 950, color: 'white', letterSpacing: '-1.5px', lineHeight: 1 }}>
-              Recruite<span style={{ color: '#10b981' }}>X</span>
+            <div style={{
+              fontSize: isMobile ? '1.15rem' : '1.8rem',
+              fontWeight: 950, color: 'white',
+              letterSpacing: isMobile ? '-0.5px' : '-1.5px',
+              lineHeight: 1,
+            }}>
+              Recruite<span style={{ color: '#34d399' }}>X</span>
             </div>
-            <div style={{ fontSize: '0.65rem', fontWeight: 800, color: '#64748b', letterSpacing: '1.5px', textTransform: 'uppercase', marginTop: '2px' }}>
+            <div style={{
+              fontSize: isMobile ? '0.5rem' : '0.65rem',
+              fontWeight: 800, color: '#475569',
+              letterSpacing: '1.5px', textTransform: 'uppercase',
+              marginTop: '2px',
+            }}>
               Talent Scout
             </div>
           </div>
         </div>
 
         {/* ── MIDDLE: Navigation ── */}
-        <nav style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', padding: '0.5rem 0', marginTop: '0.5rem' }}>
+        <nav style={{
+          flex: 1, overflowY: 'auto', overflowX: 'hidden',
+          padding: isMobile ? '0.35rem 0' : '0.5rem 0',
+          marginTop: isMobile ? '0.15rem' : '0.5rem',
+        }}>
           {navLinks.map((link) => {
             const isActive = location.pathname === link.path;
             return (
@@ -134,45 +152,88 @@ const RecruiterLayout = () => {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '1rem',
-                  margin: '0.2rem 1rem',
-                  padding: '0.9rem 1.25rem',
-                  borderRadius: '12px',
+                  gap: isMobile ? '0.7rem' : '1rem',
+                  margin: isMobile ? '1px 0.6rem' : '0.2rem 1rem',
+                  padding: isMobile ? '0.65rem 0.85rem' : '0.9rem 1.25rem',
+                  borderRadius: isMobile ? '10px' : '12px',
                   textDecoration: 'none',
                   fontWeight: 600,
-                  fontSize: '0.9rem',
+                  fontSize: isMobile ? '0.85rem' : '0.9rem',
                   color: isActive ? '#fff' : '#94a3b8',
-                  backgroundColor: isActive ? 'rgba(16,185,129,0.15)' : 'transparent',
-                  borderLeft: isActive ? '3px solid #10b981' : '3px solid transparent',
-                  transition: 'all 0.2s',
+                  backgroundColor: isActive ? 'rgba(16,185,129,0.18)' : 'transparent',
+                  borderLeft: isActive ? '3px solid #34d399' : '3px solid transparent',
+                  transition: 'all 0.15s',
                 }}
               >
-                <span style={{ fontSize: '1.3rem', color: isActive ? '#10b981' : '#64748b', flexShrink: 0 }}>{link.icon}</span>
+                <span style={{
+                  fontSize: isMobile ? '1.05rem' : '1.3rem',
+                  color: isActive ? '#34d399' : '#4b5563',
+                  flexShrink: 0,
+                }}>{link.icon}</span>
                 <span>{link.name}</span>
               </Link>
             );
           })}
         </nav>
 
-        {/* ── BOTTOM: Logout only (matches Image 1) ── */}
-        <div style={{ flexShrink: 0, padding: '0.5rem 1rem 1.5rem' }}>
+        {/* ── BOTTOM: User card + Logout ── */}
+        <div style={{
+          flexShrink: 0,
+          padding: isMobile ? '0.6rem 0.6rem 0.8rem' : '0.5rem 1rem 1.5rem',
+          borderTop: '1px solid rgba(255,255,255,0.06)',
+        }}>
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: '0.65rem',
+            padding: isMobile ? '0.6rem' : '0.7rem',
+            borderRadius: '10px',
+            backgroundColor: 'rgba(16,185,129,0.08)',
+            marginBottom: '0.4rem',
+          }}>
+            <div style={{
+              width: isMobile ? '32px' : '36px',
+              height: isMobile ? '32px' : '36px',
+              flexShrink: 0,
+              backgroundColor: '#10b981', borderRadius: '9px',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: 'white', fontWeight: 800,
+              fontSize: isMobile ? '0.8rem' : '0.9rem',
+            }}>
+              {user?.name ? user.name.charAt(0).toUpperCase() : 'E'}
+            </div>
+            <div style={{ overflow: 'hidden', flex: 1 }}>
+              <p style={{
+                color: '#e2e8f0', fontWeight: 700,
+                fontSize: isMobile ? '0.78rem' : '0.85rem',
+                margin: 0, whiteSpace: 'nowrap',
+                overflow: 'hidden', textOverflow: 'ellipsis',
+              }}>{user?.name || 'Employer'}</p>
+              <p style={{
+                color: '#4b5563',
+                fontSize: isMobile ? '0.6rem' : '0.68rem',
+                margin: 0,
+              }}>HR Manager</p>
+            </div>
+          </div>
           <a
             href="#"
             onClick={(e) => { e.preventDefault(); handleLogout(); }}
             style={{
-              display: 'flex', alignItems: 'center', gap: '1rem',
-              padding: '0.9rem 1.25rem', borderRadius: '12px',
+              display: 'flex', alignItems: 'center',
+              gap: isMobile ? '0.65rem' : '1rem',
+              padding: isMobile ? '0.55rem 0.85rem' : '0.9rem 1.25rem',
+              borderRadius: '10px',
               color: '#f87171', textDecoration: 'none',
-              fontWeight: 700, fontSize: '0.9rem',
+              fontWeight: 700,
+              fontSize: isMobile ? '0.82rem' : '0.9rem',
               transition: '0.2s',
             }}
           >
-            <FiLogOut style={{ fontSize: '1.3rem', flexShrink: 0 }} />
-            <span>Logout Account</span>
+            <FiLogOut style={{ fontSize: isMobile ? '1rem' : '1.3rem', flexShrink: 0 }} />
+            <span>Logout</span>
           </a>
         </div>
-
       </aside>
+
 
       {/* Main Content Area */}
       <div className="dashboard-content" style={{ marginLeft: isMobile ? '0' : '280px' }}>

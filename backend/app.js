@@ -1,6 +1,3 @@
-
-
-
 import express from "express";
 import dbConnection from "./database/dbConnection.js";
 import jobRouter from "./routes/jobRoutes.js";
@@ -9,6 +6,7 @@ import applicationRouter from "./routes/applicationRoutes.js";
 import dashboardRouter from "./routes/dashboardRoutes.js";
 import messageRouter from "./routes/messageRoutes.js";
 import aiRouter from "./routes/aiRoutes.js";
+import adminRouter from "./routes/adminRouter.js";
 import { config } from "dotenv";
 import cors from "cors";
 import { errorMiddleware } from "./middlewares/error.js";
@@ -52,6 +50,7 @@ app.use("/api/v1/application", applicationRouter);
 app.use("/api/v1/dashboard", dashboardRouter);
 app.use("/api/v1/message", messageRouter);
 app.use("/api/ai", aiRouter);
+app.use("/api/v1/admin", adminRouter);
 
 dbConnection();
 

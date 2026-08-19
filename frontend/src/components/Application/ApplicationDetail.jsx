@@ -15,6 +15,7 @@ import {
   FiClock,
   FiShield,
   FiBriefcase,
+  FiChevronRight,
 } from "react-icons/fi";
 
 const ApplicationDetail = () => {
@@ -77,113 +78,195 @@ const ApplicationDetail = () => {
 
 
   return (
-    <div className="app-detail-page" style={{ padding: "2.5rem", maxWidth: "1000px", margin: "0 auto", backgroundColor: "#fcfdff" }}>
-       
-       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2.5rem" }}>
+    <div className="app-detail-container">
+       {/* Header with Glassmorphism */}
+       <div className="ad-header modern-glass">
           <button 
             onClick={() => navigateTo(-1)}
-            style={{ display: "flex", alignItems: "center", gap: "0.5rem", background: "#f1f5f9", border: "1px solid #e2e8f0", padding: "0.5rem 1rem", borderRadius: "8px", color: "#475569", fontWeight: 700, cursor: "pointer" }}>
+            className="ad-back-btn">
             <FiArrowLeft /> Back
           </button>
-          <div style={{ textAlign: "right" }}>
-             <p style={{ margin: 0, fontSize: "0.75rem", color: "#94a3b8", fontWeight: 800 }}>SUBMISSION Manifest</p>
-             <p style={{ margin: 0, fontSize: "0.9rem", color: "#0f172a", fontWeight: 800 }}>ID: {application._id}</p>
+          <div className="ad-submission-info">
+             <p className="ad-manifest-label">SUBMISSION Manifest</p>
+             <p className="ad-submission-id">ID: {application._id}</p>
           </div>
        </div>
 
-       <div style={{ padding: "1.25rem 2rem", backgroundColor: "white", border: "1px solid #e2e8f0", borderRadius: "12px", marginBottom: "2rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-             <FiBriefcase color="var(--primary)" size={20} />
+       {/* Targeted Position Hero */}
+       <div className="ad-position-hero modern-glass">
+          <div className="ad-pos-content">
+             <div className="ad-pos-icon">
+                <FiBriefcase size={28} />
+             </div>
              <div>
-                <span style={{ fontSize: "0.7rem", color: "#94a3b8", fontWeight: 800, textTransform: "uppercase" }}>Targeted Position</span>
-                <h2 style={{ margin: 0, fontSize: "1rem", fontWeight: 800, color: "#0f172a" }}>{application.jobId?.title || "Not Available"}</h2>
+                <span className="ad-pos-label">Targeted Position</span>
+                <h2 className="ad-pos-title">{application.jobId?.title || "Not Available"}</h2>
              </div>
           </div>
-          <Link to={`/job/${application.jobId?._id}`} style={{ fontSize: "0.85rem", color: "var(--primary)", fontWeight: 800, textDecoration: "none" }}>
-             VIEW ORIGINAL POSTING →
+          <Link to={`/job/${application.jobId?._id}`} className="ad-view-link">
+             VIEW ORIGINAL POSTING <FiChevronRight />
           </Link>
        </div>
 
-       <div style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: "2.5rem" }}>
+       <div className="ad-grid-layout">
           <div className="detail-main">
-             <div style={{ backgroundColor: "white", border: "1px solid #e2e8f0", borderRadius: "16px", padding: "2.5rem" }}>
-                
-                <h3 style={{ margin: "0 0 2rem 0", fontSize: "1.2rem", fontWeight: 900, color: "#0f172a", borderBottom: "2px solid #f1f5f9", paddingBottom: "1rem" }}>
-                   Data Structure Representation
-                </h3>
-
-                <div style={{ display: "flex", flexDirection: "column", border: "1px solid #f1f5f9", borderRadius: "12px", overflow: "hidden", marginBottom: "2rem" }}>
-                   <ManifestRow label="Full Name" value={application.name} isEven />
-                   <ManifestRow label="Email Address" value={application.email} />
-                   <ManifestRow label="Phone Number" value={application.phone} isEven />
-                   <ManifestRow label="Mailing Address" value={application.address} />
-                   <ManifestRow label="Date of Filing" value={new Date(application.createdAt).toLocaleString()} isEven />
-                   <ManifestRow label="Hiring Status" value={application.status.toUpperCase()} statusColor={getStatusColor(application.status)} />
+             <div className="ad-main-card modern-glass">
+                <div className="ad-card-header">
+                   <h3 className="ad-card-title">Candidate Profile Data</h3>
+                   <span className="ad-card-subtitle">Detailed submission structure representation</span>
                 </div>
 
-                <div>
-                   <h4 style={{ display: "flex", alignItems: "center", gap: "0.5rem", fontSize: "0.9rem", fontWeight: 800, color: "#64748b", margin: "0 0 1rem 0", textTransform: "uppercase" }}>
+                <div className="ad-manifest-grid">
+                   <ManifestItem label="Full Name" value={application.name} icon={<FiUser />} />
+                   <ManifestItem label="Email Address" value={application.email} icon={<FiMail />} />
+                   <ManifestItem label="Phone Number" value={application.phone} icon={<FiPhone />} />
+                   <ManifestItem label="Mailing Address" value={application.address} icon={<FiMapPin />} />
+                   <ManifestItem label="Date of Filing" value={new Date(application.createdAt).toLocaleString()} icon={<FiClock />} />
+                   <ManifestItem label="Hiring Status" value={application.status} icon={<FiCheckCircle />} statusColor={getStatusColor(application.status)} isBadge />
+                </div>
+
+                <div className="ad-cover-section">
+                   <h4 className="ad-section-label">
                       <FiFileText /> Cover Letter Content
                    </h4>
-                   <div style={{ padding: "2rem", backgroundColor: "#f8fafc", borderRadius: "12px", border: "1px solid #e2e8f0", lineHeight: 1.7, color: "#334155", fontSize: "1rem" }}>
+                   <div className="ad-content-box">
                       {application.coverLetter}
                    </div>
                 </div>
              </div>
           </div>
 
-          <aside style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
-             <div style={{ backgroundColor: "white", border: "1px solid #e2e8f0", borderRadius: "16px", padding: "2rem" }}>
-                <h3 style={{ margin: "0 0 1.5rem 0", fontSize: "1rem", fontWeight: 800 }}>{isEmployer ? "Decision Center" : "Track Status"}</h3>
+          <aside className="ad-sidebar">
+             <div className="ad-sidebar-card modern-glass">
+                <h3 className="ad-sidebar-title">{isEmployer ? "Decision Center" : "Application Progress"}</h3>
                 
                 {isEmployer && application.status === "Pending" ? (
-                  <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                     <button onClick={() => updateStatus("Accepted")} style={{ padding: "0.85rem", borderRadius: "10px", border: "none", backgroundColor: "#10b981", color: "white", fontWeight: 800, cursor: "pointer" }}>
-                       Accept Selection
+                  <div className="ad-action-group">
+                     <button onClick={() => updateStatus("Accepted")} className="ad-btn-primary ad-btn-accept">
+                       <FiCheckCircle /> Accept Selection
                      </button>
-                     <button onClick={() => updateStatus("Rejected")} style={{ padding: "0.85rem", borderRadius: "10px", border: "1px solid #fee2e2", backgroundColor: "#fff", color: "#ef4444", fontWeight: 800, cursor: "pointer" }}>
-                       Decline Application
+                     <button onClick={() => updateStatus("Rejected")} className="ad-btn-secondary ad-btn-reject">
+                       <FiXCircle /> Decline Application
                      </button>
                   </div>
                 ) : (
-                  <div style={{ padding: "1.25rem", borderRadius: "10px", backgroundColor: getStatusColor(application.status) + "08", border: `1.5px solid ${getStatusColor(application.status)}40` }}>
-                     <p style={{ margin: 0, fontWeight: 800, color: getStatusColor(application.status), fontSize: "0.9rem", textTransform: "uppercase", textAlign: "center" }}>
+                  <div className="ad-status-container">
+                     <div className="ad-status-indicator" style={{ backgroundColor: getStatusColor(application.status) }}></div>
+                     <span style={{ fontWeight: 800, color: getStatusColor(application.status), textTransform: "uppercase", fontSize: "0.9rem" }}>
                         {application.status}
-                     </p>
+                     </span>
                   </div>
                 )}
              </div>
 
-             <div style={{ backgroundColor: "white", border: "1px solid #e2e8f0", borderRadius: "16px", padding: "2rem" }}>
-                 <h3 style={{ margin: "0 0 1.5rem 0", fontSize: "1rem", fontWeight: 800 }}>Supporting Docs</h3>
-                 <a href={application.resume.url} target="_blank" rel="noreferrer" style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.85rem", borderRadius: "10px", backgroundColor: "#f1f5f9", color: "#0f172a", textDecoration: "none", fontWeight: 700, border: "1px solid #e2e8f0", justifyContent: "center", fontSize: "0.9rem" }}>
-                    <FiUser size={18} /> OPEN RESUME
+             <div className="ad-sidebar-card modern-glass">
+                 <h3 className="ad-sidebar-title">Supporting Documentation</h3>
+                 <a href={application.resume.url} target="_blank" rel="noreferrer" className="ad-resume-btn">
+                    <FiFileText size={20} /> VIEW FULL RESUME
                  </a>
+                 <p className="ad-hint">Verified document encrypted in transit.</p>
              </div>
 
-             <div style={{ padding: "1.5rem", borderRadius: "16px", backgroundColor: "#fffbeb", border: "1px solid #fef3c7" }}>
-                <p style={{ margin: 0, fontSize: "0.8rem", color: "#92400e", lineHeight: 1.5, display: "flex", gap: "0.5rem" }}>
-                   <FiShield size={20} style={{ flexShrink: 0 }} />
-                   Protected data environment enabled.
+             <div className="ad-info-box">
+                <FiShield size={24} className="ad-info-icon" />
+                <p className="ad-info-text">
+                   <strong>Secure Environment</strong><br/>
+                   Protected candidate data environment enabled for this manifest.
                 </p>
              </div>
           </aside>
        </div>
 
+       <style>{`
+         .app-detail-container { padding: 2rem; max-width: 1200px; margin: 0 auto; min-height: 100vh; }
+         .modern-glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); }
+         
+         .ad-header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; margin-bottom: 2rem; }
+         .ad-back-btn { display: flex; align-items: center; gap: 0.5rem; background: #fff; border: 1px solid #e2e8f0; padding: 0.6rem 1.2rem; border-radius: 12px; color: #475569; font-weight: 700; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+         .ad-back-btn:hover { transform: translateX(-4px); box-shadow: 0 6px 12px rgba(0,0,0,0.05); }
+         .ad-manifest-label { margin: 0; font-size: 0.7rem; color: #94a3b8; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+         .ad-submission-id { margin: 0; font-size: 0.95rem; color: #0f172a; font-weight: 800; }
+
+         .ad-position-hero { padding: 2rem; display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; gap: 2rem; flex-wrap: wrap; background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border: 1px solid #e2e8f0; }
+         .ad-pos-content { display: flex; gap: 1.5rem; align-items: center; }
+         .ad-pos-icon { width: 56px; height: 56px; background: #eff6ff; color: #3b82f6; border-radius: 16px; display: flex; align-items: center; justify-content: center; }
+         .ad-pos-label { font-size: 0.75rem; color: #64748b; font-weight: 800; text-transform: uppercase; display: block; margin-bottom: 0.25rem; }
+         .ad-pos-title { margin: 0; font-size: 1.5rem; font-weight: 900; color: #0f172a; }
+         .ad-view-link { display: flex; align-items: center; gap: 0.5rem; color: #3b82f6; font-weight: 800; text-decoration: none; font-size: 0.9rem; transition: 0.2s; }
+         .ad-view-link:hover { gap: 0.75rem; }
+
+         .ad-grid-layout { display: grid; grid-template-columns: 1fr 360px; gap: 2rem; }
+         .ad-main-card { padding: 3rem; }
+         .ad-card-header { margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #f1f5f9; }
+         .ad-card-title { font-size: 1.25rem; font-weight: 900; color: #0f172a; margin-bottom: 0.5rem; }
+         .ad-card-subtitle { color: #94a3b8; font-size: 0.9rem; font-weight: 500; }
+
+         .ad-manifest-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 3rem; }
+         .manifest-item { display: flex; gap: 1rem; align-items: flex-start; }
+         .mi-icon { width: 40px; height: 40px; border-radius: 10px; background: #f8fafc; color: #64748b; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid #f1f5f9; }
+         .mi-label { font-size: 0.75rem; color: #94a3b8; font-weight: 800; text-transform: uppercase; margin-bottom: 0.25rem; display: block; }
+         .mi-value { font-size: 1rem; font-weight: 700; color: #334155; word-break: break-all; line-height: 1.4; }
+         .mi-badge { display: inline-block; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 800; }
+
+         .ad-cover-section { margin-top: 2rem; }
+         .ad-section-label { display: flex; align-items: center; gap: 0.75rem; font-size: 0.95rem; font-weight: 800; color: #0f172a; margin-bottom: 1.25rem; }
+         .ad-content-box { padding: 2.5rem; background: #f8fafc; border-radius: 20px; border: 1px solid #e2e8f0; line-height: 1.8; color: #475569; font-size: 1.05rem; white-space: pre-wrap; }
+
+         .ad-sidebar { display: flex; flex-direction: column; gap: 2rem; }
+         .ad-sidebar-card { padding: 2rem; }
+         .ad-sidebar-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 1.5rem; color: #0f172a; }
+         .ad-action-group { display: flex; flex-direction: column; gap: 1rem; }
+         .ad-btn-primary, .ad-btn-secondary { display: flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 1rem; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; border: none; font-size: 0.95rem; }
+         .ad-btn-accept { background: #10b981; color: white; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
+         .ad-btn-accept:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3); }
+         .ad-btn-reject { background: white; color: #ef4444; border: 1px solid #fee2e2; }
+         .ad-btn-reject:hover { background: #fef2f2; }
+         
+         .ad-status-container { display: flex; align-items: center; gap: 0.75rem; padding: 1rem; background: #fff; border-radius: 12px; border: 1px solid #f1f5f9; }
+         .ad-status-indicator { width: 10px; height: 10px; border-radius: 50%; }
+
+         .ad-resume-btn { display: flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 1.2rem; background: #0f172a; color: white; border-radius: 12px; text-decoration: none; font-weight: 800; font-size: 0.9rem; transition: 0.3s; }
+         .ad-resume-btn:hover { background: #1e293b; transform: translateY(-2px); }
+         .ad-hint { font-size: 0.75rem; color: #94a3b8; margin: 1rem 0 0 0; text-align: center; }
+
+         .ad-info-box { display: flex; gap: 1rem; padding: 1.5rem; background: #fffbeb; border: 1px solid #fef3c7; border-radius: 20px; }
+         .ad-info-icon { color: #d97706; flex-shrink: 0; }
+         .ad-info-text { margin: 0; font-size: 0.85rem; color: #92400e; line-height: 1.6; }
+
+         @media (max-width: 1024px) {
+           .ad-grid-layout { grid-template-columns: 1fr; }
+           .ad-sidebar { flex-direction: row; }
+           .ad-sidebar-card, .ad-info-box { flex: 1; min-width: 300px; }
+         }
+
+         @media (max-width: 768px) {
+           .app-detail-container { padding: 1rem; }
+           .ad-header { padding: 1rem; flex-direction: column; align-items: flex-start; gap: 1rem; }
+           .ad-position-hero { padding: 1.5rem; }
+           .ad-pos-title { font-size: 1.2rem; }
+           .ad-main-card { padding: 1.5rem; }
+           .ad-manifest-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+           .ad-content-box { padding: 1.5rem; }
+           .ad-sidebar { flex-direction: column; }
+         }
+       `}</style>
     </div>
   );
 };
 
-const ManifestRow = ({ label, value, isEven, statusColor }) => (
-  <div style={{ 
-    display: "grid", 
-    gridTemplateColumns: "180px 1fr", 
-    padding: "1rem 1.5rem", 
-    backgroundColor: isEven ? "#fafbfc" : "white",
-    borderBottom: "1px solid #f1f5f9"
-  }}>
-    <span style={{ fontSize: "0.85rem", fontWeight: 800, color: "#94a3b8" }}>{label}</span>
-    <span style={{ fontSize: "0.9rem", fontWeight: 700, color: statusColor || "#1e293b" }}>{value}</span>
+const ManifestItem = ({ label, value, icon, statusColor, isBadge }) => (
+  <div className="manifest-item">
+    <div className="mi-icon">{icon}</div>
+    <div style={{ flex: 1 }}>
+      <span className="mi-label">{label}</span>
+      {isBadge ? (
+        <span className="mi-badge" style={{ backgroundColor: statusColor + "15", color: statusColor }}>
+          {value}
+        </span>
+      ) : (
+        <span className="mi-value">{value}</span>
+      )}
+    </div>
   </div>
 );
 
